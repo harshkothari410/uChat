@@ -16,8 +16,11 @@ class ChatRoom(models.Model):
 	def __unicode__(self):
 		return self.label
 
+	def get_messages(self):
+		return Message.objects.all(room=self)
 
-class Message(object):
+
+class Message(models.Model):
 	"""
 	Model for Messages
 	"""
