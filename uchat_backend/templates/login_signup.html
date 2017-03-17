@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>uChat Login</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style type="text/css">
+		
+	.left-section{
+					/*border-right:1px solid black;*/
+					
+				}
+	
+	/*.login{
+			    position: fixed;
+			    right: 0;
+			    bottom:0;
+			    order: 1;
+    			margin-top: auto;
+			}*/
+	.jumbotron{
+				/*position: relative;*/
+				/*height: 20%;*/
+				/*padding: 10px;*/
+				background-color: rgba(59,64,71,1);
+				color:rgba(255,255,255,.8);
+			}
+	.signup,.login{
+				position: relative;
+			}
+
+/*	.signupPosition,.loginPosition{
+
+									border:1px solid rgba(59,64,71,1);
+								}*/
+
+
+	</style>
+</head>
+<body>
+	<div class="jumbotron">
+		<div class=" row h1 text-center">
+			uChat <div class="h5"> Smart Chat Application for Current Fast Paced World</div>
+		</div>
+		
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-md-4 left-section">
+				<!-- <div class="row header" >
+
+				</div> -->
+
+				<div class="row login pull-right">
+					<div class="loginPosition">
+						<div class="h3">
+							Log in to your Account!
+						</div>
+
+						<form class="row form-horizontal">
+		  					<div class="form-group">
+		    					<label class="col-sm-3 control-label">Username</label>
+		    					<div class="col-sm-9">
+		    						<input type="text" class="form-control" name="username" placeholder="Username">
+		    					</div>
+		  					</div>
+		  					<div class="form-group">
+		    					<label class="col-sm-3 control-label">Email</label>
+		    					<div class="col-sm-9">
+		    						<input type="email" class="form-control" name="password" placeholder="Password">
+		    					</div>
+		  					</div>
+		  					<div class="checkbox col-sm-offset-3 col-sm-9" >
+								<label>
+									<input type="checkbox"> Remember me
+								</label>
+							</div>
+							<div class="col-sm-offset-3 col-sm-9 ">
+								<button type="submit" class="btn btn-default">Log In</button>
+							</div>
+		  					
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-8">
+				<!-- <div class="row header" >
+
+				</div> -->
+				<div class="signup">
+					<div class="signupPosition">
+						<div class="h3" style="text-align: center;">
+						Register for Free!
+						</div>
+
+						<form class="row form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">First Name</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="first_name" placeholder="First Name">
+								</div>						
+							</div>	
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Last Name</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="last_name" placeholder="Last Name">
+								</div>						
+							</div>	
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Username</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="username" placeholder="Username">
+								</div>						
+							</div>	
+
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Email</label>
+								<div class="col-sm-6">
+									<input type="email" class="form-control" name="email" placeholder="Email">
+								</div>						
+							</div>
+
+							<div class="form-group">
+		    					<label class="col-sm-4 control-label">Password</label>
+		    					<div class="col-sm-6">
+		      						<input type="password" class="form-control" name="password" placeholder="Password">
+		    					</div>
+		  					</div>
+
+		  					<div class="form-group">
+		    					<div class="col-sm-offset-4 col-sm-6 ">
+		      						<button type="submit" class="btn btn-default">Sign Up</button>
+		      						<button type="reset" class="btn btn-default">Reset</button>
+		    					</div>
+		  					</div>
+							
+
+						</form>
+					</div>
+				</div>
+					
+			</div>
+			
+		</div>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		// $('.login').each(function(){
+		// 	var $this = $(this);
+		// 	$this.css('top',window.innerHeight/2);
+		// });
+
+		$('.header').each(function(){
+			var $this=$(this);
+			$this.css('height',window.innerHeight/5);
+		});
+
+		$('.loginPosition').each(function(){
+			var $this=$(this);
+			$this.css('padding',$this.parent().height()/5);
+		});
+
+		$('.signupPosition').each(function(){
+			var $this=$(this);
+			$this.css('padding',$this.parent().height()/6);
+		});
+
+	</script>
+
+
+
+
+
+
+</body>
+</html>

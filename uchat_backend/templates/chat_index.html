@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>uChat - Smart Chat Application for Current fast paced world</title>
+		<!-- CSS Html Bootstrap link -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<style>
+			/*.container-fluid {border: 1px solid black;background-color: #eff5f5;}*/
+			/*.row {background-color: lightgreen;}*/
+
+			/*html, body, .container-fluid { height: 100%; }*/
+
+			body{
+				font-family: "Salesforce Sans",sans-serif;
+			}
+			.color-class {
+				/*background-color: #6f5499;*/
+				background-color: rgba(59,64,71,1);
+				color: rgba(255,255,255,.8);
+				/*overflow-y: scroll*/
+				height: 100vh;
+				/*width: 100%;*/
+
+			}
+
+			.main-theme-color{
+				background-color: #eff5f5;
+			}
+
+			.show-chat{
+				background-color: white;
+			}
+
+			.ul{
+				list-style-type: none;
+			}
+
+			.border{
+				border: 1px solid #eff5f5;
+			}
+
+			#middle_section_color{
+				background-color: rgba(255,255,255,.5);
+			}
+
+			.sidebar-header {
+				padding: 0 17px;
+				font-weight: 700;
+				color: rgba(255,255,255,.5);
+				margin: 0;
+				overflow: hidden;
+				line-height: 27px;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: justify;
+				-webkit-box-pack: space-between;
+				-webkit-justify-content: space-between;
+				justify-content: space-between;
+			}
+
+			.sidebar-item {
+			    display: -webkit-box;
+			    display: -webkit-flex;
+			    display: flex;
+			    -webkit-box-align: center;
+			    -webkit-align-items: center;
+			    align-items: center;
+			    padding: 0 17px;
+			    padding-left: 17px;
+			    height: 27px;
+			    color: rgba(255,255,255,.8);
+			    fill: rgba(255,255,255,.5);
+			    position: relative;
+			}
+
+			.sidebar-item-title {
+			    white-space: nowrap;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			}
+
+			.sidebar-item-icon {
+			    -webkit-flex-shrink: 0;
+			    flex-shrink: 0;
+			    width: 18px;
+			    height: 18px;
+			    margin-right: 6px;
+			}
+
+			.sidebar-section {
+			    -webkit-user-select: none;
+			    -ms-user-select: none;
+			    user-select: none;
+			    cursor: default;
+			    margin-bottom: 17px;
+			}
+
+			hr{
+				color: #eff5f5;
+				width: 100%;
+			}
+
+			.h3 {
+				margin-top: 10px;
+			}
+
+			.show-chat-outer{
+				padding: 15px;
+				padding-top: 0px;
+				padding-bottom: 15px;
+				/*min-height: 100%;*/
+				position: relative;
+				/*box-shadow: -1px 0 0 rgba(0,0,0,.12), -1px 0 2px rgba(0,0,0,.12);*/
+			}
+
+			.show-chat{
+				border-radius: 3px;
+
+				box-shadow: -1px 0 0 rgba(0,0,0,.12), -1px 0 2px rgba(0,0,0,.12);
+			}
+
+			#chat-box{
+			    /*position: absolute;*/
+			    /*left: 0;*/
+			    /*right: 0;*/
+			    /*bottom:-5px;*/
+			    order: 1;
+    			margin-top: auto;
+    			padding: 10px;
+			}
+
+			.chat_display{
+
+			}
+
+			#chat_body{
+				color: black;
+				position: relative;
+				min-height: 100%;
+				overflow-y: scroll;
+				height: 85vh;
+				padding: 10px;
+			}
+
+
+			
+			ts-message {
+			    display: block;
+			    width: 100%;
+			    margin: 0 auto -.0625rem;
+			    position: relative;
+			    padding-top: .0625rem;
+			    padding-bottom: .125rem;
+			    padding-left: 0;
+			    padding-right: 2.5rem;
+			    border-left: none;
+			    border-right: none;
+			    border-top: 1px solid transparent;
+			    border-bottom: 1px solid transparent;
+			    font-family: Slack-Lato,appleLogo,sans-serif;
+			    color: #2C2D30;
+			    font-size: .9375rem;
+			    line-height: 1.375rem;
+			    -webkit-user-select: text;
+			    -moz-user-select: text;
+			    -ms-user-select: text;
+			    user-select: text;
+			    word-wrap: break-word;
+			}
+						
+						ts-message > .message_gutter {
+			    text-align: right;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			}
+
+
+			ts-message.first .message_icon, .light_theme ts-message.selected .message_icon {
+			    margin-top: .25rem;
+			    display: block;
+			}
+
+			.member_image.thumb_36 {
+			    width: 2.25rem;
+			    height: 2.25rem;
+			}
+
+			.member_image {
+			    border-radius: .2rem;
+			    background-size: 100%;
+			    background-repeat: no-repeat;
+			    display: inline-block;
+			    position: relative;
+			}
+
+			ts-message .message_content {
+			    margin-left: 4.5rem;
+			    font-size: 12px;
+			    line-height: 1.5;
+			}
+
+			ts-message  .message_content_header {
+			    display: -webkit-box;
+			    display: -webkit-flex;
+			    display: -moz-flex;
+			    display: -ms-flexbox;
+			    display: flex;
+			    -ms-flex-align: baseline;
+			    -webkit-align-items: baseline;
+			    -webkit-box-align: baseline;
+			    -moz-align-items: baseline;
+			    align-items: baseline;
+			}
+
+
+			ts-message .message_body {
+			    display: block;
+			    cursor: text;
+			}
+			/*#chat_body:before{
+				    box-sizing: border-box;
+    position: absolute;
+    left: 220px;
+    right: 0;
+    height: 8px;
+    border-bottom: 1px solid #E8E8E8;
+    background: #fff;
+    content: '';
+    z-index: 200;
+
+			}*/
+
+			html{min-height:100%;position:relative;}
+		</style>
+
+
+
+	</head>
+
+	<body>
+
+	<div class="container-fluid main-theme-color">
+		<div class="row ">
+			<div class="col-sm-2  border">
+				<div class="row color-class ">
+					<div class="col-sm-12 h3">
+						Connections
+					</div>
+
+					<hr>
+					<div class="col-sm-12">
+						<div class="friends-list sidebar-section">
+							<div class="sidebar-header">
+								Friends 
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							</div>
+
+							<div class="sidebar-item">
+								<div class="sidebar-item-icon">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</div>
+								<div class="sidebar-item-title">Vidit</div>
+							</div>
+
+							<div class="sidebar-item">
+								<div class="sidebar-item-icon">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</div>
+								<div class="sidebar-item-title">Neelmay</div>
+							</div>
+
+							<div class="sidebar-item">
+								<div class="sidebar-item-icon">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+								</div>
+								<div class="sidebar-item-title">Anirudh</div>
+							</div>
+														
+						</div>
+
+						<div class="groups-list sidebar-section">
+							<div class="sidebar-header">
+								Groups 
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							</div>
+
+							<div class="sidebar-item">
+								<div class="sidebar-item-icon">
+									<span class="glyphicon glyphicon-cd" aria-hidden="true"></span>
+								</div>
+								<div class="sidebar-item-title">Vegas Trip</div>
+							</div>
+
+							<div class="sidebar-item">
+								<div class="sidebar-item-icon">
+									<span class="glyphicon glyphicon-cd" aria-hidden="true"></span>
+								</div>
+								<div class="sidebar-item-title">2H</div>
+							</div>
+
+							<div class="sidebar-item">
+								<div class="sidebar-item-icon">
+									<span class="glyphicon glyphicon-cd" aria-hidden="true"></span>
+								</div>
+								<div class="sidebar-item-title">CS552</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6 border">
+				<div class="row color-class">
+					<div class="col-sm-12 h3">
+						Chat
+					</div>
+
+					<hr>
+
+					<div id="middle_section_color">
+						<div class="col-sm-12 show-chat-outer">
+							<div class="show-chat chat_display">
+								<div id="chat_body">
+									<ts-message id="msg_1473464989_000003" data-ts="1473464989.000003" data-model-ob-id="C2341KQ1K" data-member-id="U292U7A9Z" class="message feature_fix_files first" data-selectable="true">
+
+										<div class="message_gutter">
+											<div class="message_icon">
+												<a href="/team/rohit12" target="/team/rohit12" class=" member_preview_link member_image thumb_36" data-member-id="U292U7A9Z" data-thumb-size="36" style="background: url('https://www.w3schools.com/css/img_fjords.jpg')" aria-hidden="true" tabindex="-1">
+						
+												</a>
+				
+											</div>
+										</div>
+
+										<div class="message_content">
+											<div class="message_content_header">
+												<div class="message_content_header_left">
+													<a href="/team/rohit12" target="/team/rohit12" class="message_sender color_U292U7A9Z color_df3dc0 member member_preview_link " data-member-id="U292U7A9Z">rohit12</a>	
+												</div>
+											</div>
+
+
+											<span class="message_body"><span class="constrain_triple_clicks"></span>Hi guys, has anyone registered for CS 596 with Professor Pranjal Awasthi?<span class="constrain_triple_clicks"></span></span>
+										</div>
+
+									</ts-message>
+
+									<ts-message id="msg_1473464989_000003" data-ts="1473464989.000003" data-model-ob-id="C2341KQ1K" data-member-id="U292U7A9Z" class="message feature_fix_files first" data-selectable="true">
+
+										<div class="message_gutter">
+											<div class="message_icon">
+												<a href="/team/rohit12" target="/team/rohit12" class=" member_preview_link member_image thumb_36" data-member-id="U292U7A9Z" data-thumb-size="36" style="background: url('https://www.w3schools.com/css/img_fjords.jpg')" aria-hidden="true" tabindex="-1">
+						
+												</a>
+				
+											</div>
+										</div>
+
+										<div class="message_content">
+											<div class="message_content_header">
+												<div class="message_content_header_left">
+													<a href="/team/rohit12" target="/team/rohit12" class="message_sender color_U292U7A9Z color_df3dc0 member member_preview_link " data-member-id="U292U7A9Z">rohit12</a>	
+												</div>
+											</div>
+
+
+											<span class="message_body"><span class="constrain_triple_clicks"></span>Hi guys, has anyone registered for CS 596 with Professor Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi?  Pranjal Awasthi? 
+											 Pranjal Awasthi?  Pranjal Awasthi? <span class="constrain_triple_clicks"></span></span>
+										</div>
+
+									</ts-message>
+								</div>
+							</div>
+						</div>
+
+						<div class=" " id=chat-box>
+							<div class="col-sm-10 ">
+								<textarea rows="1" class="form-control"></textarea>
+							</div>
+							<div class="col-sm-2 ">
+								<button class="btn btn-block btn-success" >Send</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="col-sm-4 color-class border">
+				<div class="row ">
+					<div class="col-sm-12 h3">
+						Bot Section
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2 side-section color-class">
+				<div class="row">
+					<div class="h3 text-center ">
+						Friends and Groups
+					</div>
+				</div>
+				<div class="friends-list list-group">
+					<button class="list-group-item active">Friends</button>
+					
+  					<button class="friend-group list-group-item list-group-item-action">Friend 1</button>
+  					<button class="friend-group list-group-item list-group-item-action">Friend 2</button>
+  					
+  					<button type="button" class="btn btn-default list-group-item text-center" aria-label="Left Align">
+  						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  						Add Friends
+					</button>
+					
+				</div>
+
+				<div class="groups-list list-group">
+					<button class="list-group-item active">Groups</button>
+  					<button class="friend-group list-group-item list-group-item-action">Group 1</button>
+  					<button class="friend-group list-group-item list-group-item-action">Group 2</button>
+  					
+  					<button type="button" class="btn btn-default list-group-item text-center" aria-label="Left Align">
+  						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  						Add Group
+					</button>
+					
+				</div>
+
+			</div>
+
+
+			<div class="col-md-6 ">
+
+				<div class="container ">
+					<div class="row color-class">
+						<div class=" h3">
+							<span>
+							<a href="#">
+      						<img class="image-rounded" id="chat_pic" height="25" width="25" src="IMG_4535.JPG" alt="profile_pic" style="margin-top:-5px; ">
+							</a>
+							</span>
+							Main Area for Chat
+						</div>
+					</div>
+				</div>
+
+				<div class="show-chat">
+				</div>
+
+				<div class="chat-box">
+					<textarea class="form-control" rows="3" name=""></textarea>
+					<div class="text-right">
+						<button class="btn btn-success text-right">Send</button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class=" col-md-4  side-section color-class" style="height: 100%">
+				<div class="row" text-center">
+					<div class="h3 text-center ">
+						BOT section
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript">
+		$('.chat-box').each(function() {
+			var $this = $(this);
+			$this.css('top', $this.parent().height() - $this.height())
+		});
+
+		// $('.show-chat').each(function() {
+		// 	var $this = $(this);
+		// 	$this.css('height', window.innerHeight - $this.position().top - $('.chat-box').height());
+		// 	console.log(window.outerHeight - $('.chat-box').height());
+		// 	console.log($this.position().top);
+		// 	// console.log(window.innerHeight - $this.().top - $('.chat-box').height());
+		// });
+
+		$('.friend-group').click(function(e){
+			$this = $(this);
+			var name = $this.text();
+			$('#chat_title').text(name);
+		})
+
+		// $('#chat_pic').css("height",$('.h3').height());
+		// $('#chat_pic').width
+	</script>
+
+	</body>
+
+</html>
