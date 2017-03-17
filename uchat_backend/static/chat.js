@@ -4,7 +4,7 @@ $(function() {
     var chatsock = new ReconnectingWebSocket(ws_scheme + '://' + window.location.host + "/chat" + window.location.pathname);
     
     chatsock.onmessage = function(message) {
-        alert(message.data);
+        // alert(message.data);
         var data = JSON.parse(message.data);
         console.log(data);
         var chat = $("#chat")
@@ -22,6 +22,10 @@ $(function() {
         
         chat.append(ele)
     };
+
+    // chatsock.onconnect(e) {
+    //     console.log(e.data);
+    // }
 
     $("#chatform").on("submit", function(event) {
         var message = {
