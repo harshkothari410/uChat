@@ -10,7 +10,14 @@
 					/*border-right:1px solid black;*/
 					
 				}
-	
+	body { 
+			background: url(bg3.jpeg) center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+			background-size: cover;
+			/*z-index: 999;*/
+}
 	/*.login{
 			    position: fixed;
 			    right: 0;
@@ -18,41 +25,258 @@
 			    order: 1;
     			margin-top: auto;
 			}*/
-	.jumbotron{
-				/*position: relative;*/
-				/*height: 20%;*/
-				/*padding: 10px;*/
-				background-color: rgba(59,64,71,1);
+	.header{
+				
+				/*background-color: rgba(59,64,71,1);*/
+				/*background-color: #FFFC00;*/
 				color:rgba(255,255,255,.8);
+				/*color: rgb(38, 38, 38);*/
 			}
 	.signup,.login{
 				position: relative;
 			}
 
-/*	.signupPosition,.loginPosition{
+	body{
+		font-family: "Salesforce sans-serifs",sans-serif;
+		/*font-family:Helvetica ;*/
+		color:rgba(255,255,255,.8);
+	}
 
-									border:1px solid rgba(59,64,71,1);
-								}*/
+	.container {
+    padding-top: 50px;
+}
+.panel-login {
+	/*border-color: #ccc;*/
+
+	/*opacity: 0.7;*/
+	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+}
+.panel-login>.panel-heading {
+	color: #00415d;
+	/*background-color: #fff;*/
+	/*opacity: 0;*/
+	border-color: #fff;
+	text-align:center;
+}
+.panel-login>.panel-heading a{
+	text-decoration: none;
+	color: #666;
+	font-weight: bold;
+	/*font-size: 15px;*/
+	-webkit-transition: all 0.1s linear;
+	-moz-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+}
+.panel-login>.panel-heading a.active{
+	color: #029f5b;
+	font-size: 18px;
+}
+.panel-login>.panel-heading hr{
+	margin-top: 10px;
+	margin-bottom: 0px;
+	clear: both;
+	border: 0;
+	height: 1px;
+	background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+	background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+	background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+	background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+	height: 35px;
+	border: 1px solid #ddd;
+	font-size: 14px;
+	-webkit-transition: all 0.1s linear;
+	-moz-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+}
+.panel-login input:hover,
+.panel-login input:focus {
+	outline:none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	border-color: #ccc;
+}
+.btn-login {
+	background-color: #59B2E0;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: auto;
+	font-weight: normal;
+	padding: 10px 0;
+	text-transform: uppercase;
+	border-color: #59B2E6;
+}
+.btn-login:hover,
+.btn-login:focus {
+	color: #fff;
+	background-color: #53A3CD;
+	border-color: #53A3CD;
+}
+.forgot-password {
+	text-decoration: underline;
+	color: #888;
+}
+.forgot-password:hover,
+.forgot-password:focus {
+	text-decoration: underline;
+	color: #666;
+}
+
+.btn-register {
+	background-color: #1CB94E;
+	outline: none;
+	color: #fff;
+	font-size: 14px;
+	height: auto;
+	font-weight: normal;
+	padding: 14px 0;
+	text-transform: uppercase;
+	border-color: #1CB94A;
+}
+.btn-register:hover,
+.btn-register:focus {
+	color: #fff;
+	background-color: #1CA347;
+	border-color: #1CA347;
+}
 
 
 	</style>
 </head>
-<body>
-	<div class="jumbotron">
-		<div class=" row h1 text-center">
-			uChat <div class="h5"> Smart Chat Application for Current Fast Paced World</div>
-		</div>
-		
+<body >
+	<div class="container">
+		<h1>uChat</h1>		
 	</div>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
+			<div class="col-sm-6">
+				<div class="h3 text-center">
+					Description
+				</div>
+			</div>
 
-			<div class="col-md-4 left-section">
-				<!-- <div class="row header" >
+			<div class="col-sm-6">
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-6"><a href="#" class="active" id="login">Login</a></div>
+							<div class="col-xs-6"><a href="#" class="" id="register">Register</a></div>
+						</div>
+					
+						<hr>
+					</div>
+					
 
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<form id="login-form" style="display: block;">
+									<div class="form-group">
+										<input type="text" tabindex="1" class="form-control" name="username" placeholder="Username">
+									</div>
+
+									<div class="form-group">
+										<input type="password" tabindex="2"  class="form-control" name="password" placeholder="Password">
+									</div>
+<!-- 
+									<div class="form-group text-center">
+										<input type="checkbox" tabindex="3"  name="Remember" id="Remember">
+										<label for="Remember">Remember Me</label>
+									</div> -->
+
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary btn-login" value="Login">
+											</div>
+										</div>
+									</div>
+								</form>
+
+								<form id="register-form" style="display: none;">
+									<div class="form-group">
+										<input type="text" class="form-control" name="first_name" placeholder="First Name">
+									</div>
+
+									<div class="form-group">
+										<input type="text" class="form-control" name="last_name" placeholder="Last Name">
+									</div>
+
+									<div class="form-group">
+										<input type="text" class="form-control" name="username" placeholder="Username">
+									</div>
+
+									<div class="form-group">
+										<input type="email" class="form-control" name="email" placeholder="Email">
+									</div>
+
+									<div class="form-group">
+										<input type="password" tabindex="2"  class="form-control" name="password" placeholder="Password">
+									</div>
+
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary btn-login" value="Login">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<form>
+									<div class="form-group">
+										<input type="text" tabindex="1" class="form-control" name="username" placeholder="Username">
+									</div>
+
+									<div class="form-group">
+										<input type="password" tabindex="2"  class="form-control" name="password" placeholder="Password">
+									</div>
+
+									<div class="form-group text-center">
+										<input type="checkbox" tabindex="3"  name="Remember" id="Remember">
+										<label for="Remember">Remember Me</label>
+									</div>
+
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary btn-login" value="Login">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				
 				</div> -->
 
-				<div class="row login pull-right">
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container text-center" style="bottom: 5px; position: absolute; color:white;">
+		<div>Proudly created by Harsh Kothari and Vidit Desai :) </div>
+		<div>All rights reserved @uchat.com</div>
+	</div>
+		<!-- <div class="row">
+
+			<div class="col-md-6 left-section">
+				 <div class="row header" >
+
+				</div>
+
+				<div class="row login ">
 					<div class="loginPosition">
 						<div class="h3">
 							Log in to your Account!
@@ -66,7 +290,7 @@
 		    					</div>
 		  					</div>
 		  					<div class="form-group">
-		    					<label class="col-sm-3 control-label">Email</label>
+		    					<label class="col-sm-3 control-label">Password</label>
 		    					<div class="col-sm-9">
 		    						<input type="email" class="form-control" name="password" placeholder="Password">
 		    					</div>
@@ -76,8 +300,10 @@
 									<input type="checkbox"> Remember me
 								</label>
 							</div>
+							<br>
+							<br>
 							<div class="col-sm-offset-3 col-sm-9 ">
-								<button type="submit" class="btn btn-default">Log In</button>
+								<button type="submit" class="btn btn-primary">Log In</button>
 							</div>
 		  					
 						</form>
@@ -85,32 +311,36 @@
 				</div>
 
 			</div>
-			<div class="col-md-8">
-				<!-- <div class="row header" >
+			<div class="col-md-6 right-section ">
+				<div class="row header" >
 
-				</div> -->
+				</div>
 				<div class="signup">
 					<div class="signupPosition">
-						<div class="h3" style="text-align: center;">
-						Register for Free!
+						<div class="h2 col-sm-offset-4">
+						Create an account
+							<div><small>Please fill the details. All fields are required</small></div>
 						</div>
 
 						<form class="row form-horizontal">
 							<div class="form-group">
-								<label class="col-sm-4 control-label">First Name</label>
+								<label class="col-sm-4 control-label">
+								</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="first_name" placeholder="First Name">
 								</div>						
 							</div>	
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Last Name</label>
+								<label class="col-sm-4 control-label">
+								</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="last_name" placeholder="Last Name">
 								</div>						
 							</div>	
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Username</label>
+								<label class="col-sm-4 control-label">
+								</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" name="username" placeholder="Username">
 								</div>						
@@ -118,22 +348,23 @@
 
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Email</label>
+								<label class="col-sm-4 control-label">
+								</label>
 								<div class="col-sm-6">
 									<input type="email" class="form-control" name="email" placeholder="Email">
 								</div>						
 							</div>
 
 							<div class="form-group">
-		    					<label class="col-sm-4 control-label">Password</label>
+		    					<label class="col-sm-4 control-label">
+q		    					</label>
 		    					<div class="col-sm-6">
 		      						<input type="password" class="form-control" name="password" placeholder="Password">
 		    					</div>
 		  					</div>
-
 		  					<div class="form-group">
 		    					<div class="col-sm-offset-4 col-sm-6 ">
-		      						<button type="submit" class="btn btn-default">Sign Up</button>
+		      						<button type="submit" class="btn btn-success">Sign Up</button>
 		      						<button type="reset" class="btn btn-default">Reset</button>
 		    					</div>
 		  					</div>
@@ -145,9 +376,9 @@
 					
 			</div>
 			
-		</div>
+		</div> -->
 
-	</div>
+	<!-- </div> -->
 
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -158,20 +389,45 @@
 		// 	$this.css('top',window.innerHeight/2);
 		// });
 
-		$('.header').each(function(){
-			var $this=$(this);
-			$this.css('height',window.innerHeight/5);
-		});
+		// $('.header').each(function(){
+		// 	var $this=$(this);
+		// 	$this.css('height',window.innerHeight/8);
+		// });
 
-		$('.loginPosition').each(function(){
-			var $this=$(this);
-			$this.css('padding',$this.parent().height()/5);
-		});
+		// $('.loginPosition').each(function(){
+		// 	var $this=$(this);
+		// 	$this.css('padding',$this.parent().height()/5);
+		// });
 
-		$('.signupPosition').each(function(){
-			var $this=$(this);
-			$this.css('padding',$this.parent().height()/6);
-		});
+		// $('.signupPosition').each(function(){
+		// 	var $this=$(this);
+		// 	$this.css('padding',$this.parent().height()/6);
+		// });
+
+		// $('.logo').each(function(){
+		// 	var $this=$(this);
+		// 	$this.css('top',$this.parent().height()/5);
+
+
+		// });
+
+
+
+		$('#login').click(function(e){
+			$('#login-form').delay(100).fadeIn(100);
+			$('#register-form').fadeOut(100);
+			$('#login').addClass('active');
+			$('#register').removeClass('active');
+			e.preventDefault();
+		})
+
+		$('#register').click(function(e){
+			$('#register-form').delay(100).fadeIn(100);
+			$('#login-form').fadeOut(100);
+			$('#register').addClass('active');
+			$('#login').removeClass('active');
+			e.preventDefault();
+		})
 
 	</script>
 
