@@ -11,7 +11,7 @@
 					
 				}
 	body { 
-			background: url(bg3.jpeg) center center fixed;
+			background: url(/static/image/bg3.jpeg) center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -169,16 +169,19 @@
 						</div>
 					
 						<hr>
+						{{error}}
 					</div>
 					
 
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form id="login-form" style="display: block;">
+								<form id="login-form" style="display: block;" action="/login/" method="POST">
+									{% csrf_token %}
 									<div class="form-group">
 										<input type="text" tabindex="1" class="form-control" name="username" placeholder="Username">
 									</div>
+
 
 									<div class="form-group">
 										<input type="password" tabindex="2"  class="form-control" name="password" placeholder="Password">
@@ -198,7 +201,9 @@
 									</div>
 								</form>
 
-								<form id="register-form" style="display: none;">
+								<form id="register-form" style="display: none;" action="/signup/" method="POST">
+									{% csrf_token %}
+
 									<div class="form-group">
 										<input type="text" class="form-control" name="first_name" placeholder="First Name">
 									</div>
@@ -222,7 +227,7 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary btn-login" value="Login">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary btn-login" value="SignUp">
 										</div>
 									</div>
 								</form>

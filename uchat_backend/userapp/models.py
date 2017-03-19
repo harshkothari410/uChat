@@ -31,18 +31,18 @@ class UserProfile(models.Model):
 
 
 
-class Friend(models.Model):
-	"""
-	Model for friend relationship
-	"""
-	user1 = models.ForeignKey(UserProfile, related_name="user1")
-	user2 = models.ForeignKey(UserProfile, related_name="user2")
-	room = models.ForeignKey('groupapp.Group', related_name="friend_group", null = True)
-	created_at = models.DateTimeField(auto_now_add=True)
-	modified_at = models.DateTimeField(auto_now=True)
+# class Friend(models.Model):
+# 	"""
+# 	Model for friend relationship
+# 	"""
+# 	user1 = models.ForeignKey(UserProfile, related_name="user1")
+# 	user2 = models.ForeignKey(UserProfile, related_name="user2")
+# 	# room = models.ForeignKey('groupapp.Group', related_name="friend_group", null = True)
+# 	created_at = models.DateTimeField(auto_now_add=True)
+# 	modified_at = models.DateTimeField(auto_now=True)
 
-	def rel_name(self):
-		return str(self.user1) + ' Friends with ' + str(self.user2)
+# 	def rel_name(self):
+# 		return str(self.user1) + ' Friends with ' + str(self.user2)
 
-	def __str__(self):
-		return str(self.user1) + ' Friends with ' + str(self.user2)
+# 	def __str__(self):
+# 		return str(self.user1) + ' Friends with ' + str(self.user2)

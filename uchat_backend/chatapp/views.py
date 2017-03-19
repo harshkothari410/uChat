@@ -6,18 +6,26 @@ from django.contrib.auth.decorators import login_required
 
 from .models import *
 from django.urls import reverse
+from django.db.models import Q
 
 from chatapp.models import ChatRoom, Message
+from userapp.models import UserProfile
 
 # Create your views here.
 
 def index(request):
-	pass
+	if request.user.is_authenticated():
+		loggeduser = UserProfile.objects.get(username=request.user)
+		return redirect( '/chat', loggeduser = loggeduser )
+	return render(request, 'login_signup.html', locals())
 
+def chat_dashboard(request):
+	return render(request, 'chat_index.html', locals())
 
 def user_login(request):
 	if request.user.is_authenticated():
-		pass
+		loggeduser = UserProfile.objects.get(username=request.user)
+		return redirect( '/chat', loggeduser = loggeduser )
 
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -26,16 +34,18 @@ def user_login(request):
 		username = username.lower()
 		user = authenticate(username=username, password=password)
 
+		print username, password
 		if user:
 			login(request, user)
 			loggeduser = UserProfile.objects.get(username = username)
+			return redirect( '/chat', loggeduser = loggeduser )
 
-
-	return render(request, 'login.html', locals())
+	return render(request, 'login_signup.html', locals())
 
 def signup(request):
 	if request.user.is_authenticated():
 		loggeduser = UserProfile.objects.get(username=request.user)
+		return redirect( '/chat', loggeduser = loggeduser )
 
 	if request.method == 'POST':
 		first_name = request.POST['first_name']
@@ -47,11 +57,12 @@ def signup(request):
 		email = request.POST['email']
 		username = username.lower()
 
+		print first_name, last_name, email, username, password
 		try:
 			otheruser = UserProfile.objects.get(username = username)
 			error = 'This Username already exists...'
 
-			return render(request, 'signup.html', locals())
+			return render(request, 'login_signup.html', locals())
 
 		except:
 			pass
@@ -59,7 +70,7 @@ def signup(request):
 		try:
 			otheruser = UserProfile.objects.get(email = email)
 			error = 'This Email already exists...'
-			return render(request, 'signup.html', locals())
+			return render(request, 'login_signup.html', locals())
 
 		except:
 			pass
@@ -72,13 +83,14 @@ def signup(request):
 
 			loggeduser = UserProfile.objects.get_or_create(username=username, user = user, first_name=first_name, last_name=last_name, email=email)
 
-		except:
+		except Exception as e:
+			print e, e.__dict__
 			error = 'Validation Error...'
-			return render(request, 'signup.html', locals())
+			return render(request, 'login_signup.html', locals())
 
-		return redirect( '/', loggeduser = loggeduser )
+		return redirect( '/chat', loggeduser = loggeduser )
 
-def logout(request):
+def user_logout(request):
 	logout(request)
 	return redirect('/')
 
