@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.db.models import Q
 
 from chatapp.models import ChatRoom, Message
-from userapp.models import UserProfile
+from userapp.models import UserProfile, Friend
 
 # Create your views here.
 
@@ -106,8 +106,35 @@ def chatroom(request, label):
 	"""
 
 	# If the room with the given label doesn't exist, automatically create it
-	room, created = ChatRoom.objects.get_or_create(label=label)
 
-	messages = reversed(room.messages.order_by('-timestamp')[:50])
+	if request.user.is_authenticated():
+		room, created = ChatRoom.objects.get_or_create(label=label)
+		loggeduser = UserProfile.objects.get(username=request.user)
+		try:
+			users = Friend.objects.filter(room=room)
+			print users
+			u_list = []
+			for u in users:
+				u_list.append(u.user1.username)
+			
+			print u_list, request.user.username
+			print request.user.username in u_list
+			if request.user.username not in u_list:
+				error = 'You are not authenticate for this'
+				return redirect('/')
+		except:
+			error = 'You are not authenticate for this'
+			return redirect('/')
 
-	return render(request, 'chat.html', locals())
+		messages = reversed(room.messages.order_by('-timestamp')[:50])
+
+		return render(request, 'chat.html', locals())
+
+	return redirect('/')
+
+
+	
+
+
+
+

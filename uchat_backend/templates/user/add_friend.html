@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	{{error}}
+	<form action="/{{loggeduser.username}}/friend/add/" method="POST">
+		{% csrf_token %}
+		<input type="text" name="add_user" id="user_name">
+		<button type="submit">Search</button>
+	</form>
+
+	{{add_friend.name}}
+	<a href="/{{loggeduser.username}}/friend/add/{{add_friend.username}}">Add Friend</a>
+</body>
+</html>

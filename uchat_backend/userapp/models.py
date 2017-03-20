@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.apps import apps
 from django.contrib import admin
 
-
+import chatapp
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -28,21 +28,23 @@ class UserProfile(models.Model):
 		return self.first_name + ' ' + self.last_name
 
 	
+	def get_friend(self):
+		return Friend.objects.filter(user1=self)
 
 
+class Friend(models.Model):
+	"""
+	Model for friend relationship
+	"""
+	user1 = models.ForeignKey(UserProfile, related_name="user1")
+	user2 = models.ForeignKey(UserProfile, related_name="user2")
+	room = models.ForeignKey('chatapp.ChatRoom', related_name="chat_room", null = True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	modified_at = models.DateTimeField(auto_now=True)
 
-# class Friend(models.Model):
-# 	"""
-# 	Model for friend relationship
-# 	"""
-# 	user1 = models.ForeignKey(UserProfile, related_name="user1")
-# 	user2 = models.ForeignKey(UserProfile, related_name="user2")
-# 	# room = models.ForeignKey('groupapp.Group', related_name="friend_group", null = True)
-# 	created_at = models.DateTimeField(auto_now_add=True)
-# 	modified_at = models.DateTimeField(auto_now=True)
+	def rel_name(self):
+		return str(self.user1) + ' Friends with ' + str(self.user2)
 
-# 	def rel_name(self):
-# 		return str(self.user1) + ' Friends with ' + str(self.user2)
+	def __str__(self):
+		return str(self.user1) + ' Friends with ' + str(self.user2)
 
-# 	def __str__(self):
-# 		return str(self.user1) + ' Friends with ' + str(self.user2)

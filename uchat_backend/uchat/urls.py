@@ -13,10 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-
+import userapp
 from chatapp import views
+# from userapp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,5 +28,7 @@ urlpatterns = [
 
     url(r'^chat/$', views.chat_dashboard, name="chat_dashboard"),
 
-    # url(r'^(?P<label>[\w-]{,50})/$', views.chatroom, name='chat_room'),
+    url(r'^(?P<label>[\w-]{,50})/$', views.chatroom, name='chat_room'),
+    # Userapp URLs
+    url(r'^(?P<user_name>[-\w.]+)/', include('userapp.urls', namespace='userapp-url')),
 ]

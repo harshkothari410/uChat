@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+Hello
+<div>
+{% for friend in loggeduser.get_friend %}
+	{{ friend.name }}
+	<div>{{friend}}</div>
+{% endfor %}
+</div>
+</body>
+</html>

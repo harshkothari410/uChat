@@ -5,6 +5,19 @@ from channels import Group
 from channels.sessions import channel_session
 from .models import ChatRoom
 
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+from django.urls import reverse
+from django.db.models import Q
+
+from chatapp.models import ChatRoom, Message
+from userapp.models import UserProfile
+
+
 Room = ChatRoom
 log = logging.getLogger(__name__)
 
@@ -14,6 +27,9 @@ def ws_connect(message):
     # form /chat/{label}/, and finds a Room if the message path is applicable,
     # and if the Room exists. Otherwise, bails (meaning this is a some othersort
     # of websocket). So, this is effectively a version of _get_object_or_404.
+    
+
+
     print "Connect"
     try:
         prefix, label = message['path'].decode('ascii').strip('/').split('/')
@@ -21,7 +37,7 @@ def ws_connect(message):
             log.debug('invalid ws path=%s', message['path'])
             return
         room = Room.objects.get(label=label)
-        print room
+
     except ValueError:
         print "tets"
         log.debug('invalid ws path=%s', message['path'])
