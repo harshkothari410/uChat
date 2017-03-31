@@ -17,9 +17,20 @@ from django.conf.urls import url, include
 from django.contrib import admin
 import userapp
 from chatapp import views
-# from userapp import views
+from userapp import views as views1
+
+
+from rest_framework.urlpatterns import format_suffix_patterns
+
+from rest_framework import routers
+router = routers.DefaultRouter()
+
+# router.register(r'users', views1.UserProfileViewSet)
 
 urlpatterns = [
+    # url(r'^', include(router.urls)),
+    url(r'^api/v1/users/$', views1.UserProfileList.as_view(), name='user-list'),
+    url(r'^api/v1/users/(?P<username>[-\w.]+)/$', views1.UserProfileDetail.as_view(), name='user-detail'),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name="index" ),
     url(r'^login/$', views.user_login, name="user_login"),
@@ -29,6 +40,12 @@ urlpatterns = [
     url(r'^chat/$', views.chat_dashboard, name="chat_dashboard"),
 
     url(r'^(?P<label>[\w-]{,50})/$', views.chatroom, name='chat_room'),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    # url(r'^api/v1/user/(?P<user_name>[-\w.]+)/$', views1.get_user, name='userapp-api-url'),
     # Userapp URLs
-    url(r'^(?P<user_name>[-\w.]+)/', include('userapp.urls', namespace='userapp-url')),
+    # url(r'^(?P<user_name>[-\w.]+)/', include('userapp.urls', namespace='userapp-url')),
+
+    
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
