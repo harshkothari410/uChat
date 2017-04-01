@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from models import UserProfile
+from models import UserProfile, Friend
 from rest_framework import serializers
 # from views import UserProfileDetail
 
@@ -22,11 +22,17 @@ class UserProfileSerializer(serializers.ModelSerializer):
 			'url': {'view_name': 'user-detail', 'lookup_field': 'username'},
 			# 'users': {'lookup_field': 'username'}
 		}
-		
 
-		# users = serializers.HyperlinkedRelatedField(
-		# 	view_name='UserProfileDetail',
-		# 	lookup_field='username',
-		# 	many=True,
-		# 	read_only=True
-		# )
+class UserFriendSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Friend
+		fields = ('friend', 'created_at')
+		depth = 1
+
+	# def create(self, validated_data):
+	# 	print validated_data
+		# data = request.data
+		# s = Friend.objects.create()
+
+	# 	return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

@@ -27,14 +27,16 @@ def user_login(request):
 		loggeduser = UserProfile.objects.get(username=request.user)
 		return redirect( '/chat', loggeduser = loggeduser )
 
+	print "Hello"
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
 
 		username = username.lower()
+		# print User.objects.get(username=username, password=password)
 		user = authenticate(username=username, password=password)
 
-		print username, password
+		print username, password, user
 		if user:
 			login(request, user)
 			loggeduser = UserProfile.objects.get(username = username)
@@ -108,23 +110,24 @@ def chatroom(request, label):
 	# If the room with the given label doesn't exist, automatically create it
 
 	if request.user.is_authenticated():
-		room, created = ChatRoom.objects.get_or_create(label=label)
+		room, created = ChatRoom.objects.get_or_create(label='47716bb0-5f9b-4676-9474-706cc95dc801')
 		loggeduser = UserProfile.objects.get(username=request.user)
-		try:
-			users = Friend.objects.filter(room=room)
-			print users
-			u_list = []
-			for u in users:
-				u_list.append(u.user1.username)
+		# try:
+		# 	users = Friend.objects.filter(room=room)
+		# 	print users
+		# 	u_list = []
+		# 	for u in users:
+		# 		u_list.append(u.creator.username)
 			
-			print u_list, request.user.username
-			print request.user.username in u_list
-			if request.user.username not in u_list:
-				error = 'You are not authenticate for this'
-				return redirect('/')
-		except:
-			error = 'You are not authenticate for this'
-			return redirect('/')
+		# 	print u_list, request.user.username
+		# 	print request.user.username in u_list
+		# 	if request.user.username not in u_list:
+		# 		error = 'You are not authenticate for this'
+		# 		print "I am here"
+		# 		return redirect('/')
+		# except:
+		# 	error = 'You are not authenticate for this'
+		# 	return redirect('/')
 
 		messages = reversed(room.messages.order_by('-timestamp')[:50])
 

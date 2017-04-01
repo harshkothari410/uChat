@@ -31,6 +31,8 @@ urlpatterns = [
     # url(r'^', include(router.urls)),
     url(r'^api/v1/users/$', views1.UserProfileList.as_view(), name='user-list'),
     url(r'^api/v1/users/(?P<username>[-\w.]+)/$', views1.UserProfileDetail.as_view(), name='user-detail'),
+    url(r'^api/v1/users/(?P<username>[-\w.]+)/friends/$', views1.UserFriendList.as_view(), name='user-friend-list'),
+    url(r'^api/v1/users/(?P<username>[-\w.]+)/friends/(?P<friend>[-\w.]+)$', views1.UserFriendDetail.as_view(), name='user-friend-detail'),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name="index" ),
     url(r'^login/$', views.user_login, name="user_login"),

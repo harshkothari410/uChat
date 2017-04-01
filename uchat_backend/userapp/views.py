@@ -14,12 +14,12 @@ from chatapp.models import ChatRoom, Message
 from userapp.models import UserProfile, Friend
 import json
 from django.http import JsonResponse, HttpResponseBadRequest
-
+import uuid
 
 
 # REST import
 from rest_framework import viewsets
-from serializers import UserProfileSerializer, UserSerializer
+from serializers import UserProfileSerializer, UserSerializer, UserFriendSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -44,12 +44,12 @@ class UserProfileList(APIView):
 		else:
 			return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 		print u
-		# request.data['user'] = u.pk
+		request.data['user'] = u.pk
 
 		serializer = UserProfileSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+			return Response(serializer.data, status=status.HTTP_201_CREATED, context={'request': request})
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileDetail(APIView):
@@ -118,6 +118,56 @@ class UserProfileDetail(APIView):
 		user1 = self.get_main_user(username)
 		user.delete()
 		user1.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserFriendList(APIView):
+	def get(self, request, username, format=None):
+		user = UserProfile.objects.get(username=username)
+		users = Friend.objects.filter(creator=user)
+		serializer = UserFriendSerializer(users, many=True, context={'request': request})
+		return Response(serializer.data)
+
+	def post(self, request, username, format=None):
+		creator = UserProfile.objects.get(username=username)
+		friend = UserProfile.objects.get(username=request.data['username'])
+
+		# serializer = UserProfileSerializer(friend, context={'request': request})
+		request.data['creator'] = creator
+		request.data['friend'] = friend
+
+		# @fix me : Add Channel
+		request.data['group'] = None
+		room_name = creator.username + '-' + friend.username
+		room = ChatRoom.objects.create(name=room_name, label=uuid.uuid4())
+
+		try:
+			s = Friend.objects.create(creator=creator, friend=friend, room=room)
+			g = Friend.objects.create(creator=friend, friend=creator, room=room)
+			serializer = UserFriendSerializer(s)
+			print serializer
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		except:
+			pass
+		
+		return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserFriendDetail(APIView):
+	def get_friend(self, username, friend):
+		try:
+			creator = UserProfile.objects.get(username=username)
+			friend = UserProfile.objects.get(username=friend)
+			return Friend.objects.get(creator=creator, friend=friend)
+		except:
+			raise Http404
+
+	def get(self, request, username, friend):
+		user = self.get_friend(username, friend)
+		serializer = UserFriendSerializer(user, context={'request': request})
+		return Response(serializer.data)
+
+	def delete(self, request, username, friend):
+		friend = self.get_friend(username, friend)
+		friend.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
 class UserProfileViewSet(generics.ListCreateAPIView):

@@ -29,16 +29,16 @@ class UserProfile(models.Model):
 
 	
 	def get_friend(self):
-		return Friend.objects.filter(user1=self)
+		return Friend.objects.filter(creator=self)
 
 
 class Friend(models.Model):
 	"""
 	Model for friend relationship
 	"""
-	user1 = models.ForeignKey(UserProfile, related_name="user1")
-	user2 = models.ForeignKey(UserProfile, related_name="user2")
-	room = models.ForeignKey('chatapp.ChatRoom', related_name="chat_room", null = True)
+	creator = models.ForeignKey(UserProfile, related_name="user1", null=True)
+	friend = models.ForeignKey(UserProfile, related_name="friend", null=True)
+	room = models.ForeignKey('chatapp.ChatRoom', related_name="chat_room", null = True, default=None)
 	created_at = models.DateTimeField(auto_now_add=True)
 	modified_at = models.DateTimeField(auto_now=True)
 
@@ -46,5 +46,5 @@ class Friend(models.Model):
 		return str(self.user1) + ' Friends with ' + str(self.user2)
 
 	def __str__(self):
-		return str(self.user1) + ' Friends with ' + str(self.user2)
+		return str(self.creator) + ' Friends with ' + str(self.friend)
 
