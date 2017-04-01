@@ -1,0 +1,25 @@
+
+.friends-group-search #typeahead{
+	border:solid 1px;
+	border-radius: 6px;
+	box-shadow: none;
+	background: none;
+	color: #ECEFF1;
+}
+
+/*.friends-group-search button{
+	margin: 2px 0 0 0;
+	background: none;
+	box-shadow: none;
+	border: 0;
+	padding: 0 8px 0 10px;
+	border-left: solid 1px;
+}
+
+.friends-group-search button:hover{
+	border:0;
+	box-shadow: none;
+	border-left: solid 1px;
+	background: none;
+}
+*/

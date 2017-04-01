@@ -1,0 +1,58 @@
+.msg {
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.bubble {
+  padding: 6px 0 8px 0;
+  padding-left: 9px;
+  padding-right: 7px;
+}
+
+.bubble-text {
+  bottom: 3px;
+  right: 7px;
+}
+
+.has-author {
+  margin-top: 6px;
+}
+
+.message-author {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12.5px;
+  line-height: 20px;
+  height: 20px;
+  font-weight: 600;
+  margin-bottom: 1px;
+  color: #74cff8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 3px;
+  margin-left: -3px;
+}
+
+.title-number {
+  display: -webkit-flex;
+  display: flex;
+}
+
+.ellipsify{
+	display: block;
+}
+
+.screen-name {
+  font-weight: normal;
+  color: #999 !important;
+  margin-left: 8px;
+}
+
+.screen-name-text::before {
+  content: "~";
+}
+
+.message-out {
+	
+  float: right;
+}
