@@ -20,6 +20,9 @@ import uuid
 # REST import
 from rest_framework import viewsets
 from serializers import UserProfileSerializer, UserSerializer, UserFriendSerializer
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -31,8 +34,14 @@ from rest_framework import generics
 class UserProfileList(APIView):
 	"""docstring for UserProfileList"""
 
-
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
 	def get(self, request, format=None):
+
+		content = {
+			'user': unicode(request.user),
+			'auth': unicode(request.auth)
+		}
 		users = UserProfile.objects.all()
 		serializer = UserProfileSerializer(users, many=True, context={'request': request})
 		return Response(serializer.data)
@@ -53,6 +62,9 @@ class UserProfileList(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileDetail(APIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
 	def get_user(self, username):
 		try:
 			return UserProfile.objects.get(username=username)
@@ -66,8 +78,14 @@ class UserProfileDetail(APIView):
 			raise Http404
 
 	def get(self, request, username):
+		print request.user, request.auth
+		content = {
+			'user': unicode(request.user),
+			'auth': unicode(request.auth)
+		}
 		user = self.get_user(username)
 		serializer = UserProfileSerializer(user, context={'request': request})
+		print serializer.data
 		return Response(serializer.data)
 
 	def put(self, request, username, format=None):
@@ -121,6 +139,9 @@ class UserProfileDetail(APIView):
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
 class UserFriendList(APIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+	
 	def get(self, request, username, format=None):
 		user = UserProfile.objects.get(username=username)
 		users = Friend.objects.filter(creator=user)
@@ -132,11 +153,11 @@ class UserFriendList(APIView):
 		friend = UserProfile.objects.get(username=request.data['username'])
 
 		# serializer = UserProfileSerializer(friend, context={'request': request})
-		request.data['creator'] = creator
-		request.data['friend'] = friend
+		# request.data['creator'] = creator
+		# request.data['friend'] = friend
 
 		# @fix me : Add Channel
-		request.data['group'] = None
+		# request.data['group'] = None
 		room_name = creator.username + '-' + friend.username
 		room = ChatRoom.objects.create(name=room_name, label=uuid.uuid4())
 

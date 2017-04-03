@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 	<title>uChat</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
-	<link rel="stylesheet" type="text/css" href="css/searchbar.css">
-	<link rel="stylesheet" type="text/css" href="css/message.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/chat/main.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/chat/sidebar.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/chat/searchbar.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/chat/message.css">
 </head>
 
 <body>
@@ -28,10 +27,10 @@
 							<div class="col-sm-8">
 								<div class="row">
 									<div class="col-lg-12">
-										<div id="user-info-name" class="sidebar-item-title">Vidit Desai</div>	
+										<div id="user-info-name" class="sidebar-item-title">{{loggeduser.name|title}}</div>	
 									</div>
 								</div>
-								<span id="user-info-username">vidit08</span> | 
+								<span id="user-info-username">{{loggeduser.username}}</span> | 
 								<span>active</span>
 							</div>	
 						</div>
@@ -64,13 +63,16 @@
 					</div>
 
 					<div class="friends-list">
+						{% for friend in loggeduser.get_friends %}
 						<div class="sidebar-item friends-item">
 							<div class="sidebar-item-icon">
-								<img class="initial-image img-rounded" data-name="Vidit" width="20px" height="20spx">
+								<img class="initial-image img-rounded" data-name="{{friend.friend.name}}" width="20px" height="20spx">
 							</div>
-							<div class="sidebar-item-title">Vidit</div>
+							<div class="sidebar-item-title">{{friend.friend.name|title}}</div>
+							<div class="hidden socket-chat">{{friend.label}}</div>
 						</div>
-						<div class="sidebar-item friends-item">
+						{% endfor %}
+						<!-- <div class="sidebar-item friends-item">
 							<div class="sidebar-item-icon">
 								<img class="initial-image img-rounded" data-name="Neelmay" width="18px" height="18px">
 							</div>
@@ -94,7 +96,7 @@
 								<img class="initial-image img-rounded" data-name="Sheel" width="18px" height="18px">
 							</div>
 							<div class="sidebar-item-title">Sheel</div>
-						</div>
+						</div> -->
 
 					</div>	
 
@@ -176,19 +178,22 @@
 				</div>
 				
 				<div class="row">
-					<div class="container-fluid chatarea">
+					<div class="container-fluid chatarea" id="chat">
+
+						{% for m in messages %}
 						<div class="msg">
 							<div class="bubble bubble-text has-author">
 								
-								<div class="message-text">
+								<div class="message-text {% if m.handle == loggeduser.username %}message-out{% endif %}">
 									<span class="emojitext selectable-text">
-										I am in love with you Vidit
+										{{m.handle}} - {{m.message}}
 									</span>
 									
 								</div>
 							</div>
 						</div>
-						<div class="msg ">
+						{% endfor %}
+						<!-- <div class="msg ">
 							<div class="bubble bubble-text has-author">
 								
 								<div class="message-text message-out">
@@ -198,17 +203,19 @@
 									
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-sm-10 ">
-						<textarea rows="1" class="form-control"></textarea>
-					</div>
-					<div class="col-sm-2 ">
-						<button class="btn btn-block btn-success" >Send</button>
-					</div>
+					<form id="chatform">
+						<div class="col-sm-10 ">
+							<textarea rows="1" id="chatmessage" class="form-control"></textarea>
+						</div>
+						<div class="col-sm-2 ">
+							<button class="btn btn-block btn-success" id="chatsend" >Send</button>
+						</div>
+					</form>
 				</div>
 
 				
@@ -217,7 +224,7 @@
 			<div class="col-sm-4">
 				<div class="row">
 					<div>
-						<center><img id="uchatlogo" src="images/uchat_logo.png" /></center>
+						<center><img id="uchatlogo" src="/static/image/uchat_logo.png" /></center>
 					</div>
 				</div>
 				
@@ -309,11 +316,13 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
-	<script type="text/javascript" src="js/initial.js"></script>
-	<script type="text/javascript" src="js/typeahead.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/friendModal.js"></script>
-	<script type="text/javascript" src="js/loadmoreFriends.js"></script>
+	<script type="text/javascript" src="/static/js/chat/initial.js"></script>
+	<script type="text/javascript" src="/static/js/chat/typeahead.js"></script>
+	<script type="text/javascript" src="/static/js/chat/main.js"></script>
+	<script type="text/javascript" src="/static/js/chat/friendModal.js"></script>
+	<script type="text/javascript" src="/static/js/chat/loadmoreFriends.js"></script>
+	<script type="text/javascript" src="/static/reconnecting-websocket.min.js"></script>
+	<script type="text/javascript" src="/static/js/chat/chat.js"></script>
 
 
 </body>

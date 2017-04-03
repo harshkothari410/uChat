@@ -38,4 +38,14 @@ $(function() {
         $("#message").val('').focus();
         return false;
     });
+
+    // var socket = new io('ws://localhost:8000/chat/47716bb0-5f9b-4676-9474-706cc95dc801');
+
+    // var socket = io(ws_scheme + '://' + window.location.host + "/chat");
+
+    // socket.connect()
+
+    // socket.on('message',function() {
+    //     console.log('Client has connected to the server!');
+    // });
 });

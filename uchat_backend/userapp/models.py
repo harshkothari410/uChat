@@ -28,7 +28,7 @@ class UserProfile(models.Model):
 		return self.first_name + ' ' + self.last_name
 
 	
-	def get_friend(self):
+	def get_friends(self):
 		return Friend.objects.filter(creator=self)
 
 

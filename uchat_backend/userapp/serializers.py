@@ -15,9 +15,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 	# )
 
 	# print serializers.HyperlinkedModelSerializer.__dict__
+
 	class Meta:
 		model = UserProfile
-		fields = ('first_name', 'last_name', 'user', 'username', 'email', 'created_at', 'url')
+		fields = ('first_name', 'last_name', 'user', 'username', 'email', 'created_at', 'url',)
 		extra_kwargs = {
 			'url': {'view_name': 'user-detail', 'lookup_field': 'username'},
 			# 'users': {'lookup_field': 'username'}

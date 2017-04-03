@@ -98,8 +98,24 @@ def ws_receive(message):
         log.debug('chat message room=%s handle=%s message=%s', 
             room.label, data['handle'], data['message'])
         m = room.messages.create(**data)
-        print m
+        # print m
         # See above for the note about Group
+        print data['message']
+        if data['message'] == 'uchat':
+            m = {
+                'message': 'welcome to uchat',
+                'handle': 'uChat'
+            }
+            print "Hello"
+            Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m)})  
+
+        if data['message'] == 'Hi':
+            m = {
+                'message': 'Hello, How may I help you today ?',
+                'handle': 'uChat'
+            }
+            print "Hello"
+            Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m)})    
         Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m.as_dict())})
 
 @channel_session

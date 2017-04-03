@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^signup/$', views.signup, name="signup"),
     url(r'^logout/$', views.user_logout, name="logout"),
 
+    url(r'^test/test/$', views.test, name="test"),    
     url(r'^chat/$', views.chat_dashboard, name="chat_dashboard"),
 
     url(r'^(?P<label>[\w-]{,50})/$', views.chatroom, name='chat_room'),

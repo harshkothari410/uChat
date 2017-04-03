@@ -13,6 +13,9 @@ from userapp.models import UserProfile, Friend
 
 # Create your views here.
 
+def test(request):
+	return render(request, 'chat/index.html', locals())
+
 def index(request):
 	if request.user.is_authenticated():
 		loggeduser = UserProfile.objects.get(username=request.user)
@@ -130,8 +133,8 @@ def chatroom(request, label):
 		# 	return redirect('/')
 
 		messages = reversed(room.messages.order_by('-timestamp')[:50])
-
-		return render(request, 'chat.html', locals())
+		friends = loggeduser.get_friends()
+		return render(request, 'chat/index.html', locals())
 
 	return redirect('/')
 
