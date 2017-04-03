@@ -14,6 +14,11 @@ from userapp.models import UserProfile, Friend
 # Create your views here.
 
 def test(request):
+	if request.user.is_authenticated():
+		room, created = ChatRoom.objects.get_or_create(label='47716bb0-5f9b-4676-9474-706cc95dc801')
+		loggeduser = UserProfile.objects.get(username=request.user)
+		messages = reversed(room.messages.order_by('-timestamp')[:50])
+		return render(request, 'chat/index.html', locals())
 	return render(request, 'chat/index.html', locals())
 
 def index(request):
