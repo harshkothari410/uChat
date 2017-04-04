@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import *
 from django.urls import reverse
+
 from django.db.models import Q
 from django.core import serializers
 from django.forms.models import model_to_dict
@@ -19,7 +20,7 @@ import uuid
 
 # REST import
 from rest_framework import viewsets
-from serializers import UserProfileSerializer, UserSerializer, UserFriendSerializer
+from serializers import UserProfileSerializer, UserSerializer, UserFriendSerializer, MessageSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -141,7 +142,7 @@ class UserProfileDetail(APIView):
 class UserFriendList(APIView):
 	authentication_classes = (SessionAuthentication, BasicAuthentication)
 	permission_classes = (IsAuthenticated,)
-	
+
 	def get(self, request, username, format=None):
 		user = UserProfile.objects.get(username=username)
 		users = Friend.objects.filter(creator=user)
@@ -173,7 +174,10 @@ class UserFriendList(APIView):
 		return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserFriendDetail(APIView):
-	def get_friend(self, username, friend):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	def get_friend(self, username, friend, format=None):
 		try:
 			creator = UserProfile.objects.get(username=username)
 			friend = UserProfile.objects.get(username=friend)
@@ -181,16 +185,38 @@ class UserFriendDetail(APIView):
 		except:
 			raise Http404
 
-	def get(self, request, username, friend):
+	def get(self, request, username, friend, format=None):
 		user = self.get_friend(username, friend)
 		serializer = UserFriendSerializer(user, context={'request': request})
 		return Response(serializer.data)
 
-	def delete(self, request, username, friend):
+	def delete(self, request, username, friend, format=None):
 		friend = self.get_friend(username, friend)
 		friend.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+class UserFriendChat(APIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	def get_chatroom(self, username, friend):
+		print username, friend
+		try:
+			creator = UserProfile.objects.get(username=username)
+			friend = UserProfile.objects.get(username=friend)
+			return Friend.objects.get(creator=creator, friend=friend)
+		except:
+			raise Http404
+
+	def get(self, request, username, friend, format=None):
+		print username, friend
+		room = self.get_chatroom(username, friend).room
+		print room
+		messages = reversed(room.messages.order_by('-timestamp')[:50])
+		print messages
+		serializer = MessageSerializer(messages, many=True, context={'request': request})
+		return Response(serializer.data)
 # class UserProfileViewSet(generics.ListCreateAPIView):
 #     """
 #     API endpoint that allows users to be viewed or edited.

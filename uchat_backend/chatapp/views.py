@@ -137,7 +137,7 @@ def chatroom(request, label):
 		# 	error = 'You are not authenticate for this'
 		# 	return redirect('/')
 
-		messages = reversed(room.messages.order_by('-timestamp')[:50])
+		# messages = reversed(room.messages.order_by('-timestamp')[:50])
 		friends = loggeduser.get_friends()
 		return render(request, 'chat/index.html', locals())
 
