@@ -191,20 +191,20 @@ class UserFriendDetail(APIView):
 		friend.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
-class UserProfileViewSet(generics.ListCreateAPIView):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+# class UserProfileViewSet(generics.ListCreateAPIView):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = UserProfile.objects.all()
+#     serializer_class = UserProfileSerializer
 
-# Views for django rest APIs
-class UserProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+# # Views for django rest APIs
+# class UserProfileViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = UserProfile.objects.all()
+#     serializer_class = UserProfileSerializer
 
 
 def get_user(request, user_name):
