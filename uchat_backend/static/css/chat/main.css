@@ -14,11 +14,19 @@ html{
 	border-top:solid 1px ;
 	/*border-radius: 8px;*/
 	width: 100%;
-	height: 80vh;
+	height: 85vh;
 	/*overflow: auto;*/
 	overflow-y: scroll;
-	/*background-color: yellow;*/
+
 }
+
+.botarea{
+	/*width: 100%;*/
+	height: 100vh;
+	background-color: lime;
+	color: blue;
+}
+
 
 #uchatlogo{
 	margin-top: 5px;
@@ -26,3 +34,28 @@ html{
 	height:10vh; 
 	width: 50%; 
 }
+
+.middle-section{
+	height:100vh;
+}
+
+@media screen and (max-width: 1276px) {
+	.middle-section {
+		widts:608px;
+	}
+}
+
+@media screen and (max-width: 1276px) {
+	.botarea {
+		width:396px;
+	}
+}
+
+@media screen and (max-width: 1276px) {
+	.main-page {
+		max-height: 100vh;
+		min-width: 1276px;
+		overflow-x: scroll;
+	}
+}
+

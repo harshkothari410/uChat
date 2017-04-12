@@ -71,6 +71,12 @@
 		width:237px;
 	}
 }
+/*@media screen and (max-width: 1287px) {
+	.sidebar-1 {
+		width:237px;
+		overflow-x: scroll;
+	}
+}*/
 
 #loadMoreFriends, #loadMoreGroups{
 	margin-top: 5px;
