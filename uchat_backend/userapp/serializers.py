@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from models import UserProfile, Friend
 from rest_framework import serializers
-from chatapp.models import ChatRoom, Message
+from chatapp.models import ChatRoom, Message, ChatRoomMember
 # from views import UserProfileDetail
 
 class UserSerializer(serializers.ModelSerializer):
@@ -50,3 +50,9 @@ class MessageSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Message
 		fields = ('room', 'handle', 'message', 'timestamp')
+
+class GroupMemberSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ChatRoomMember
+		fields = ('user',)
+		depth = 1

@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.models import User
+from userapp.models import UserProfile
 
 # Create your models here.
 class ChatRoom(models.Model):
@@ -19,6 +20,14 @@ class ChatRoom(models.Model):
 	def get_messages(self):
 		return Message.objects.all(room=self)
 
+
+class ChatRoomMember(models.Model):
+	"""
+	Model for chat room member i.e Group
+	"""
+	group = models.ForeignKey(ChatRoom, related_name='groupname')
+	user = models.ForeignKey(UserProfile, related_name='users')
+	admin = models.BooleanField(default=False)
 
 class Message(models.Model):
 	"""

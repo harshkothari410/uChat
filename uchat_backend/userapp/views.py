@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.core import serializers
 from django.forms.models import model_to_dict
 
-from chatapp.models import ChatRoom, Message
+from chatapp.models import ChatRoom, Message, ChatRoomMember
 from userapp.models import UserProfile, Friend
 import json
 from django.http import JsonResponse, HttpResponseBadRequest
@@ -20,7 +20,7 @@ import uuid
 
 # REST import
 from rest_framework import viewsets
-from serializers import UserProfileSerializer, UserSerializer, UserFriendSerializer, MessageSerializer
+from serializers import UserProfileSerializer, UserSerializer, UserFriendSerializer, MessageSerializer, ChatRoomSerializer, GroupMemberSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -210,13 +210,125 @@ class UserFriendChat(APIView):
 			raise Http404
 
 	def get(self, request, username, friend, format=None):
-		print username, friend
+		# print username, friend
 		room = self.get_chatroom(username, friend).room
-		print room
+		# print room
 		messages = reversed(room.messages.order_by('-timestamp')[:50])
-		print messages
+		# print messages
 		serializer = MessageSerializer(messages, many=True, context={'request': request})
 		return Response(serializer.data)
+
+
+class GroupList(APIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	def get(self, request):
+		groups = ChatRoom.objects.all()
+		serializer = ChatRoomSerializer(groups, many=True, context={'request': request})
+		return Response(serializer.data)
+
+	def post(self, request):
+		print request.user, request.user.username
+		creator = UserProfile.objects.get(user=request.user)
+		room_name = request.data['name']
+
+		group = ChatRoom.objects.create(name=room_name, label=uuid.uuid4())
+
+		# Add to group members
+
+		member = ChatRoomMember.objects.create(group=group, user=creator, admin=True)
+
+		serializer = ChatRoomSerializer(group, context={'request': request})
+		return Response(serializer.data)
+
+class GroupDetail(APIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	def get_group(self, group):
+		try:
+			return ChatRoom.objects.get(label=group)
+		except:
+			raise Http404
+
+	def get(self, request, group):
+		group = self.get_group(group)
+
+		serializer = ChatRoomSerializer(group, context={'request': request})
+		return Response(serializer.data)
+
+class GroupMemberList(APIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	def get_group(self, group):
+		try:
+			return ChatRoom.objects.get(label=group)
+		except:
+			raise Http404
+
+	def get(self, request, group):
+		group = self.get_group(group)
+
+		members = ChatRoomMember.objects.filter(group=group)
+		serializer = GroupMemberSerializer(members, many=True, context={'request': request})
+
+		return Response(serializer.data)
+
+	def post(self, request, group):
+		group = self.get_group(group)
+		member = UserProfile.objects.get(username=request.data['username'])
+
+		member = ChatRoomMember.objects.create(group=group, user=member)
+
+		serializer = GroupMemberSerializer(member, context={'request': request})
+		return Response(serializer.data)
+
+class GroupMemberDetail(APIView):
+	uthentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	def get_group(self, group):
+		try:
+			return ChatRoom.objects.get(label=group)
+		except:
+			raise Http404
+
+	def get_user(self, username):
+		try:
+			return UserProfile.objects.get(username=username)
+		except:
+			raise Http404
+
+	def get_group_record(self, group, member):
+		try:
+			return ChatRoomMember.objects.get(group=group, user=member)
+		except:
+			raise Http404
+
+	def get(self, request, group, username):
+		print group
+		group = self.get_group(group)
+		member = self.get_user(username)
+
+		group_record = self.get_group_record(group, member)
+
+		serializer = GroupMemberSerializer(group_record, context={'request': request})
+		return Response(serializer.data)
+
+
+	def delete(self, requests, group, username):
+		group = self.get_group(group)
+		member = self.get_user(username)
+
+		group_record = self.get_group_record(group, member)
+		group_record.delete()
+
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
 # class UserProfileViewSet(generics.ListCreateAPIView):
 #     """
 #     API endpoint that allows users to be viewed or edited.

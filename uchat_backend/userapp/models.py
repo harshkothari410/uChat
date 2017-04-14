@@ -6,6 +6,7 @@ from django.apps import apps
 from django.contrib import admin
 
 import chatapp
+# from chatapp import ChatRoomMember
 # Create your models here.
 
 class UserProfile(models.Model):
@@ -30,6 +31,9 @@ class UserProfile(models.Model):
 	
 	def get_friends(self):
 		return Friend.objects.filter(creator=self)
+
+	def get_group(self):
+		return chatapp.models.ChatRoomMember.objects.filter(user=self)
 
 
 class Friend(models.Model):

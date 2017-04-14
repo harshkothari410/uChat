@@ -139,6 +139,7 @@ def chatroom(request, label):
 
 		# messages = reversed(room.messages.order_by('-timestamp')[:50])
 		friends = loggeduser.get_friends()
+		groups = loggeduser.get_group()
 		return render(request, 'chat/index.html', locals())
 
 	return redirect('/')

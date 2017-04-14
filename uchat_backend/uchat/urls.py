@@ -35,6 +35,14 @@ urlpatterns = [
     url(r'^api/v1/users/(?P<username>[-\w.]+)/friends/(?P<friend>[-\w.]+)/$', views1.UserFriendDetail.as_view(), name='user-friend-detail'),
     url(r'^api/v1/users/(?P<username>[-\w.]+)/friends/(?P<friend>[-\w.]+)/chats/$', views1.UserFriendChat.as_view(), name='user-friend-chat-list'),
     # url(r'^api/v1/groups/(?P<group>[-\w.]+)/friends/(?P<friend>[-\w.]+)/chats/$', views1.UserFriendChat.as_view(), name='user-friend-chat-list'),
+    
+
+    # Group related URL
+    url(r'^api/v1/groups/$', views1.GroupList.as_view(), name='group-list'),
+    url(r'^api/v1/groups/(?P<group>[-\w.]+)/$', views1.GroupDetail.as_view(), name='group-detail'),
+    url(r'^api/v1/groups/(?P<group>[-\w.]+)/members/$', views1.GroupMemberList.as_view(), name='group-member-list'),
+    url(r'^api/v1/groups/(?P<group>[-\w.]+)/members/(?P<username>[-\w.]+)/$', views1.GroupMemberDetail.as_view(), name='group-member-detail'),
+
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name="index" ),
     url(r'^login/$', views.user_login, name="user_login"),

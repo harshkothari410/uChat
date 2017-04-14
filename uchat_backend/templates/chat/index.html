@@ -122,40 +122,14 @@
 						</div>
 
 						<div class="groups-list">
+							{% for group in groups %}
 							<div class="sidebar-item groups-item">
 								<div class="sidebar-item-icon">
-									<img class="initial-image img-rounded" data-name="Vegas Trip" width="20px" height="20spx">
+									<img class="initial-image img-rounded" data-name="{{group.group.name|title}}" width="20px" height="20spx">
 								</div>
-								<div class="sidebar-item-title">Vegas Trip</div>
+								<div class="sidebar-item-title">{{group.group.name|title}}</div>
 							</div>
-
-							<div class="sidebar-item groups-item">
-								<div class="sidebar-item-icon">
-									<img class="initial-image img-rounded" data-name="2H" width="18px" height="18px">
-								</div>
-								<div class="sidebar-item-title">2H</div>
-							</div>
-
-							<div class="sidebar-item groups-item">
-								<div class="sidebar-item-icon">
-									<img class="initial-image img-rounded" data-name="CS552" width="18px" height="18px">
-								</div>
-								<div class="sidebar-item-title">CS552</div>
-							</div>
-
-							<div class="sidebar-item groups-item">
-								<div class="sidebar-item-icon">
-									<img class="initial-image img-rounded" data-name="Counter Strike" width="18px" height="18px">
-								</div>
-								<div class="sidebar-item-title">Counter Strike</div>
-							</div>
-
-							<div class="sidebar-item groups-item">
-								<div class="sidebar-item-icon">
-									<img class="initial-image img-rounded" data-name="Beer Gang" width="18px" height="18px">
-								</div>
-								<div class="sidebar-item-title">Beer Gang</div>
-							</div>
+							{% endfor %}
 
 						</div>	
 
