@@ -3,41 +3,19 @@
   position: relative;
 }
 
-/*.bubble {
-  padding: 6px 0 8px 0;
-  padding-left: 9px;
-  padding-right: 7px;
-}
 
-.bubble-text {
-  bottom: 3px;
-  right: 7px;
-}*/
 
 .has-author {
   margin-top: 6px;
 }
 
-/*.message-author {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12.5px;
-  line-height: 20px;
-  height: 20px;
-  font-weight: 600;
-  margin-bottom: 1px;
-  color: #74cff8;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-left: 3px;
-  margin-left: -3px;
-}*/
 
 .title-number {
   display: -webkit-flex;
   display: flex;
   flex-wrap: wrap;
-  text-align: left;
+  text-align: left; 
+  position: relative;
  
 }
 
@@ -51,34 +29,57 @@
 
 .message-out {
   direction: rtl; 
-  color:white;
+  /*color:white;*/
+  /*float: right;*/
+  /*position: relative;*/
+
 }
 
 .selectable-text{
-  background-color: blue ;
+  position: relative;
+  background-color: #eaeaec ;
   display: block;
   word-wrap: break-word;
   text-shadow: none;
   position: relative;
-  white-space: pre-wrap;
+  /*white-space: pre-wrap;*/
   line-height: 1.28;
   border-collapse: collapse;
   /*font-size: 12px;*/
-  max-width: 250px;
-  border-radius: 1.3em;
+  max-width: 70%;
+  border-radius: 0.5em;
   padding: 6px 12px;
   min-width:0px;
-   color: white;
+  color: #303641;
+  font-size: 15px;
+  margin: 6px;
+  margin-top: 0;
+  /*padding-right: 10px;*/
 }
 
 .message-text{
-  /*flex-direction: column;*/
-  display: block;
-/*padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;*/
-  border:1px solid white;
+  display: flex;
   overflow: hidden;
-  /*padding: 6px 12px;*/
+  position: relative;
+
 }
+
+.message-time{
+  position: absolute;
+  /*font-style: italic;*/
+  color: #6e727a;
+  font-size: 10px;
+  display: inline-block;
+  bottom: 3px;
+  right: 7px;
+
+  /*float: right;*/
+}
+
+.text-msg{
+  /*padding-right: 10px;*/
+  padding-right: 50px;
+
+}
+
+/* @fix Change padding for long messages*/

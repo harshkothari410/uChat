@@ -11,7 +11,7 @@ $(function($){
 
 		// init function for rendering first chat
 		this.init = function() {
-			$('#chat').children().remove();
+			$('#chat1').children().remove();
 			var $first_dom = $('.' + settings.friends).children().first();
 
 			// Change heading
@@ -50,7 +50,7 @@ $(function($){
 
 		// onClick event listner
 		function onClick() {
-			$('#chat').children().remove();
+			$('#chat1').children().remove();
 
 			$('.active').each(function(){
 				$(this).removeClass('active');
@@ -97,13 +97,15 @@ $(function($){
 
 		// function for redering chat
 		function renderChat(chats) {
-			var $chats = $('#chat');
+			var $chats = $('#chat1');
 			for (var chat of chats) {			
 				var $chat = individualChat(chat);
 				$chats.append($chat);
 			}
 
-			$('#chat').scrollTop($('#chat')[0].scrollHeight);
+			$('#chat1').scrollTop($('#chat1')[0].scrollHeight);
+
+			$('.initial-image').initial();
 		}
 
 		// individual chat template
@@ -111,15 +113,24 @@ $(function($){
 		function individualChat(chat) {
 			// console.log(chat);
 			var $ele = $('<div></div>').addClass('msg');
-			var $div = $('<div></div>').addClass('bubble bubble-text has-author');
+			var $div = $('<div></div>').addClass('has-author');
 			var $innerDiv = $('<div></div>').addClass('message-text');
 
 			if (chat.handle == $('#user-info-username').text()) {
 				$innerDiv.addClass('message-out');
 			}
+			var $img_span = $('<span><img class="initial-image img-circle" data-name="'+chat.handle+'" height=17.5 width=17.5></img></span>')
+		
+			$innerDiv.prepend($img_span);
+			
+			var $span = $('<span dir="ltr"></span>').addClass('selectable-text');
+			var $text_msg = $('<span dir="ltr"></span>').addClass('text-msg').text(chat.message);
+			var $time_stamp = $('<span dir="ltr"></span>').addClass('message-time').text("12:55 AM");
 
-			var $span = $('<span></span>').addClass('emojitext selectable-text').text(chat.handle + ' - ' + chat.message);
+			$span.append($text_msg);
+			$span.append($time_stamp);
 			$innerDiv.append($span);
+			
 			$div.append($innerDiv);
 			$ele.append($div);
 

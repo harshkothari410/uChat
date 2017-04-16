@@ -1,0 +1,17 @@
+<div class="chatarea" id="chat1">
+	
+	{% for m in messages %}	
+		<div class="msg">
+			<div class="has-author title-number">
+											
+				<div class="message-text {% if m.handle == loggeduser.username %}message-out{% endif %}">
+					<span class="selectable-text">
+						<img  class="initial-image img-rounded" data-name="Vidit" height="50" width="50"/>
+					</span>
+										
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+			
+</div>
