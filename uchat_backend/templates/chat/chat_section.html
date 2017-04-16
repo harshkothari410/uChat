@@ -1,0 +1,43 @@
+<div class="col-xs-6">
+				<div class="middle-section">
+					<div class="row">
+						<div class="col-sm-12">
+							<h1 class="text-right " id="friend-name-heading">  </h1>		
+						</div>
+					</div>
+				
+				<div class="row">
+					<div class="container-fluid chatarea" id="chat">
+
+						{% for m in messages %}
+						<div class="msg">
+							<div class="bubble bubble-text has-author title-number">
+								
+								<div class="message-text {% if m.handle == loggeduser.username %}message-out{% endif %}">
+									<span class="emojitext selectable-text">
+										{{m.handle}} - {{m.message}}
+									</span>
+									
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+
+				<div class="row">
+					<form id="chatform">
+						<div class="col-xs-10 ">
+							<textarea rows="1" id="chatmessage" class="form-control"></textarea>
+						</div>
+						<div class="col-xs-2 ">
+							<button class="btn btn-block btn-success" id="chatsend" >Send</button>
+						</div>
+					</form>
+				</div>
+
+				</div>
+			</div>
+{% include "chat/chat_section_chatheader.html" %}
+{% include "chat/chat_section_chatarea.html" %}
+{% include "chat/chat_section_chatsend.html" %}

@@ -34,12 +34,13 @@ $(function($){
 				// settings.chatsock = chatsock;
 				var friend = getFriend($this);
 				settings.chatsock[friend] = chatsock;
+				connectWebSocket(settings.chatsock[friend]);
 			});
 
 			// Connect first dom to channel
 			var friend = getFriend($first_dom);
 			$first_dom.addClass('active');
-			connectWebSocket(settings.chatsock[friend]);
+			// connectWebSocket(settings.chatsock[friend]);
 			settings.runningSock = settings.chatsock[friend];
 		}
 
@@ -55,14 +56,19 @@ $(function($){
 				$(this).removeClass('active');
 			});
 
+			// $('#' + handle).value(0).addClass('hidden');
+
 			$this = $(this);
 			$this.addClass('active');
 			var channel = getChannel($this);
-
+			var username = getUserName($this);
 			var friend = getFriend($this);
 			var name = getName($this);
 			console.log(settings.chatsock);
 			connectWebSocket(settings.chatsock[friend]);
+
+			// Make chat count 0
+			$('#' + username).val(0).addClass('hidden');
 
 			settings.runningSock = settings.chatsock[friend];
 			// Change heading
@@ -127,13 +133,20 @@ $(function($){
 
 					// console.log(message, settings.chatsock.url);
 					var data = JSON.parse(message.data);
-
+					// console.log(data);
 					var activeFriend = getFriend($('.active'));
 					var loggedUser = $('#user-info-username').text();
 					console.log(message.handle, loggedUser, activeFriend);
 					if (data.handle == loggedUser || data.handle == activeFriend) {
-						console.log('I am inside');
+						// console.log('I am inside');
 						renderChat([data]);
+					} else {
+						var handle = data.handle;
+						// Grab the span for this and remove hidden class and increase counter of unread message
+						var counter = parseInt($('#' + handle).text());
+						// console.log(handle, counter, $('#' + handle).text());
+						counter += 1;
+						$('#' + handle).text(counter).removeClass('hidden');
 					}
 				} else {
 					console.log('connected', settings.chatsock.url);
@@ -189,6 +202,11 @@ $(function($){
 		// find friend
 		function getFriend(dom) {
 			return dom.children('.socket-chat').attr('friend');
+		}
+
+		// find username
+		function getUserName(dom) {
+			return dom.children('.socket-chat').attr('user-name');
 		}
 
 		// find the channel based on friend or group
