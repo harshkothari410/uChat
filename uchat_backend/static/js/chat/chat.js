@@ -12,8 +12,8 @@ $(function($){
 		// init function for rendering first chat
 		this.init = function() {
 			$('#chat1').children().remove();
-			var $first_dom = $('.' + settings.friends).children().first();
-
+			var $first_dom = $('.' + settings.friends).children('.friend-detail').first();
+			console.log($first_dom);
 			// Change heading
 			var name = getName($first_dom);
 			$('#friend-name-heading').text(name);
@@ -24,6 +24,7 @@ $(function($){
 			
 			var channel = getChannel($first_dom);
 			loadPreviousChat($first_dom, channel);
+			console.log(channel);
 
 			// connect every channel to socket
 			$('.' + settings.friends).children().each(function() {
