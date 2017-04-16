@@ -13,15 +13,19 @@
 </head>
 
 <body>
-	<div class="container-fluid">
-		<div class="row main-page">
-			<!-- Side Window -->
+	<div class="page-container">
+		<!-- Side Window -->
+		<div class="details-container">
 			{% include "chat/details_section.html" %}
+		</div>
 
-			<!-- Chat Window -->
+		<!-- Chat Window -->
+		<div class="chat-container">
 			{% include "chat/chat_section.html" %}
-			
-			<!-- Bot Window -->
+		</div>
+		
+		<!-- Bot Window -->
+		<div class="bot-container">
 			{% include "chat/bot_section.html" %}
 		</div>
 	</div>
@@ -30,11 +34,11 @@
 	<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
 	<script type="text/javascript" src="/static/js/chat/initial.js"></script>
 	<script type="text/javascript" src="/static/js/chat/typeahead.js"></script>
-	<script type="text/javascript" src="/static/js/chat/main.js"></script>
+	<!-- <script type="text/javascript" src="/static/js/chat/main.js"></script> -->
 	<script type="text/javascript" src="/static/js/chat/friendModal.js"></script>
 	<script type="text/javascript" src="/static/js/chat/loadmoreFriends.js"></script>
 	<script type="text/javascript" src="/static/reconnecting-websocket.min.js"></script>
-	<script type="text/javascript" src="/static/js/chat/chat.js"></script>
+	<!-- <script type="text/javascript" src="/static/js/chat/chat.js"></script> -->
 
 
 </body>

@@ -1,0 +1,11 @@
+<div class="friends-list">
+	{% for friend in loggeduser.get_friends %}
+	<div class="sidebar-item friends-item">
+		<div class="sidebar-item-icon">
+			<img class="initial-image img-rounded" data-name="{{friend.friend.name}}" width="20px" height="20spx">
+		</div>
+		<div class="sidebar-item-title">{{friend.friend.name|title}}         <span class="badge hidden" id="{{friend.friend.username}}" style="background-color:#21a9e1;">0</span></div>
+		<div class="hidden socket-chat" creator="{{friend.creator.username}}" friend="{{friend.friend.username}}" friend-name="{{friend.friend.name}}" user-name="{{friend.friend.username}}" chat-id="{{friend.room.label}}">{{friend.label}}</div>
+	</div>
+	{% endfor %}
+</div>	
