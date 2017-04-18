@@ -38,6 +38,11 @@ html, body {
     min-width: 250px;
 }
 
+hr {
+	margin: 10px;
+	padding-top: 10px;
+}
+
 @media screen and (max-width: 1024px) {
   .page-container .chat-container {
     	width: 512px;
