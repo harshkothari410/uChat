@@ -29,7 +29,7 @@ class UserFriendSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Friend
-		fields = ('friend', 'created_at')
+		fields = ('friend', 'room', 'created_at', 'modified_at')
 		depth = 1
 
 	# def create(self, validated_data):
@@ -43,7 +43,7 @@ class ChatRoomSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = ChatRoom
-		fields = ('name', 'label')
+		fields = ('name', 'label', 'created_at', 'modified_at')
 		depth = 1
 
 class MessageSerializer(serializers.ModelSerializer):

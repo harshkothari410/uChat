@@ -26,6 +26,7 @@ html, body {
     vertical-align: top;
     z-index: 5;
     /*background-color: red;*/
+    height: 100%;
     width: 55%;
 }
 
@@ -39,8 +40,9 @@ html, body {
 }
 
 hr {
-	margin: 10px;
-	padding-top: 10px;
+	margin: 0;
+	/*padding-top: 10px;*/
+    color: #303641;
 }
 
 @media screen and (max-width: 1024px) {

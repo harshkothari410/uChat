@@ -4,35 +4,18 @@
 			<a href="#" class="chat-close"><i class="entypo-cancel"></i></a>
 			<i class="entypo-users"></i>
 			{{loggeduser.name|title}}
+			<!-- Temp Hidden username -->
+			<to class="hidden" id="user-info-username">{{loggeduser.username}}</to>
 			<span class="badge badge-success">3</span>
 		</h2>
 
+		<div class="friends-group-search searchbar-container">
+			<input class="typeahead form-control" type="text" id="typeahead" placeholder="Search" >
+		</div>
+
 		<div class="chat-group friends-list" id="group-1">
-			<strong>Friends</strong>
+			<strong>Friends <span class="pull-right glyphicon glyphicon-plus"  title="Add Friend" style="cursor:pointer" id="sidebar-add-friend" data-toggle="modal" data-target="#addFriendModal" aria-hidden="true" ></span></strong>
 			{% include "chat/details_section_friend.html" %}
-			<!-- <a href="#" id="sample-user-123" data-conversation-history="#sample_history">
-				<span class="user-status is-online"></span>
-				<em>Harsh Kothari</em>
-				<span class="badge badge-info">1</span>
-			</a>
-
-			<a href="#" id="sample-user-123" data-conversation-history="#sample_history">
-				<span class="user-status is-online"></span>
-				<em>Vidit Desai</em>
-				<span class="badge badge-info">10</span>
-			</a>
-
-			<a href="#" id="sample-user-123" data-conversation-history="#sample_history">
-				<span class="user-status is-busy"></span>
-				<em>Anirudh Mathur</em>
-				<span class="badge badge-info">16</span>
-			</a>
-
-			<a href="#" id="sample-user-123" data-conversation-history="#sample_history">
-				<span class="user-status is-busy"></span>
-				<em>Pavan Nihal Renduchinatala</em>
-				<span class="badge badge-info">160</span>
-			</a> -->
 		</div>
 
 		<div class="chat-group" id="group-2">
@@ -52,6 +35,7 @@
 		</div>
 	</div>
 </div>
+
 
 
 <!-- <div class="col-xs-2 sidebar " >

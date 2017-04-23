@@ -1,17 +1,26 @@
 <div class="chatarea" id="chat1">
 	
-	{% for m in messages %}	
-		<div class="msg">
-			<div class="has-author title-number">
-											
-				<div class="message-text {% if m.handle == loggeduser.username %}message-out{% endif %}">
-					<span class="selectable-text">
-						<img  class="initial-image img-rounded" data-name="Vidit" height="50" width="50"/>
-					</span>
-										
-				</div>
+</div>
+
+{% verbatim %}
+<script id="message-template" type="text/x-handlebars-template">
+	<div class="msg {{hidden}}">
+		<div class="has-author date-msg-container">
+			<span class="date-msg">{{date}}</span>
+		</div>
+	</div>
+	<div class="msg">
+		<div class="has-author">
+			<div class="message-text {{out}}">
+				<span><img class="initial-image" data-name="test4" ></span>
+
+				<span dir="ltr" class="selectable-text">
+					<span dir="ltr" class="text-msg">{{message}}</span>
+
+					<span dir="ltr" class="message-time">{{time}}</span>
+				</span>
 			</div>
 		</div>
-	{% endfor %}
-			
-</div>
+	</div>
+</script>
+{% endverbatim %}

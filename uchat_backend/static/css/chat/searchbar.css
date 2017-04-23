@@ -1,10 +1,116 @@
 
 .friends-group-search #typeahead{
+	
+	
+	color: #ECEFF1;
+}
+
+.searchbar-container {
+	padding: 20px;
+	width: 250px;
+	padding-bottom: 0px;
+	/*padding-left: 20px;*/
+	/*margin-left: 15px;*/
+	/*padding-right: 0px;*/
+
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
 	border:solid 1px;
-	border-radius: 6px;
+	border-radius: 4px;
 	box-shadow: none;
 	background: none;
-	color: #ECEFF1;
+	width: 210px;
+	/*-webkit-border-radius: 4px;
+	    -moz-border-radius: 4px;
+    		border-radius: 4px;*/
+    outline: none;
+}
+
+.typeahead:focus {
+  /*border: 1px solid #0097cf;*/
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu {
+  width: 210px;
+  margin: 12px 0;
+  margin-top: 0px;
+  padding: 8px 0;
+  /*padding-left: 10px;*/
+  background-color: #eaeaec;
+  /*opacity: 0.5;*/
+  /*border: 1px solid #fff;*/
+  border-top: 0px;
+  /*border: 1px solid rgba(0, 0, 0, 0.2);*/
+  -webkit-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+  /*-webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);*/
+}
+
+.tt-menu:after {
+	content: "";
+    position: absolute;
+    height: 4px;
+    left: 0px;
+    /*margin-left: */
+    margin-top:2px;
+    /*right: 0px;*/
+    bottom: 100%;
+    width: 209px;
+    background-color: transparent;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0px 0px 0px 3px #eaeaec;
+    clip: rect(0px, 210px, 100px, 0px);
+}
+
+.tt-query {
+ /* -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
+}
+
+
+.tt-suggestion {
+  padding: 3px 14px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+  /*background-color: #303641;*/
+}
+
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-menu h4 {
+	/*padding-left: 10px;*/
+	text-align: center;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+
+span.twitter-typeahead {
+	display: block;
 }
 
 /*.friends-group-search button{

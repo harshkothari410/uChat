@@ -1,8 +1,8 @@
 
 //Hides Label and Submit Button
 $('#sidebar-add-friend').click(function(){
-			$('#searchFriendResult').hide();
-			$('#modalFriendsubmit').hide();
+	$('#searchFriendResult').hide();
+	// $('#modalFriendsubmit').hide();
 })
 
 // Search Friend Function
@@ -19,13 +19,15 @@ $('#modalFriendSearch').click(function(){
 		success:function(data){
 			console.log(data);
 			$('#searchFriendResult').show();
-			$('#modalFriendsubmit').show();
-			$('#searchFriendResult').text(data.first_name + ' ' + data.last_name).attr('val', data.username);
+			$('.addfriendbutton').show();
+			// $('#modalFriendsubmit').show();
+			$('#searchFriendResult > .name').text(data.first_name + ' ' + data.last_name).attr('val', data.username);
 		},
 		error:function(data){
 			// console.log(data.statusText);
 			$('#searchFriendResult').show();
-			$('#searchFriendResult').text('User not Found. Try again !');
+			$('.addfriendbutton').hide();
+			$('#searchFriendResult > .name').text('User not Found. Try again !');
 		}
 	});
 })
@@ -42,7 +44,7 @@ $('#modalFriendsubmit').click(function(){
 	var username = $('#user-info-username').text();
 	var url = base_friend_find_url + username + '/friends/';
 	data = {
-		'username': $('#searchFriendResult').attr('val')
+		'username': $('#searchFriendResult > .name').attr('val')
 	};
 
 	var csrftoken = getCookie('csrftoken');
@@ -56,17 +58,19 @@ $('#modalFriendsubmit').click(function(){
 			'X-CSRFToken' : csrftoken
 		},
 		success: function(data){
-			console.log(data);
-			var $div = $('<div>').addClass('sidebar-item-icon');
-			var $span = $('<span>').addClass('glyphicon glyphicon-user');
-			var $dom = $('<div>').addClass('sidebar-item').addClass('friends-item');
-
-			$div.append($span);
-			$dom.append($div);
-			var $div = $('<div>').addClass('sidebar-item-title').text(data.friend.first_name + ' ' + data.friend.first_name);
-			$dom.append($div);
-			$('.friends-list').prepend($dom);
 			
+			var source   = $("#friend-template").html();
+			var template = Handlebars.compile(source);
+			var context = {
+				friend_name: data.friend.first_name + ' ' + data.friend.last_name,
+				friend_username: data.friend.username,
+				chatid: data.room.label,
+				creator_username: username,
+				hidden: 'hidden',
+			};
+			var $ele = template(context); 
+			$('.friends-list strong').after($ele);
+
 			var fvis = $('.friends-item');
 			if(fvis.length>5){
 				// console.log("Hello");
@@ -74,6 +78,16 @@ $('#modalFriendsubmit').click(function(){
 					$(fvis[i]).hide();
 				}
 			}
+
+			var name = data.friend.first_name + ' ' + data.friend.last_name;
+			var username = data.friend.username;
+			window.t_friends.push({
+				name: name,
+				username, username
+			})
+
+			bindSearch();
+			$('.friends-list').children('.friend-detail').first().trigger('click');
 		},
 		error: function(data) {
 			console.log(data);
@@ -83,6 +97,8 @@ $('#modalFriendsubmit').click(function(){
 
 	
 
+	// $ele.trigger("click");
+	// $('.friends-list').children('.friend-detail').first()[0].trigger('click');
 
 })
 

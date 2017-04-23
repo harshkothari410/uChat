@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.apps import apps
 from django.contrib import admin
+import operator
 
 import chatapp
 # from chatapp import ChatRoomMember
@@ -30,7 +31,7 @@ class UserProfile(models.Model):
 
 	
 	def get_friends(self):
-		return Friend.objects.filter(creator=self)
+		return sorted(Friend.objects.filter(creator=self), key=operator.attrgetter('room.modified_at'), reverse=True)
 
 	def get_group(self):
 		return chatapp.models.ChatRoomMember.objects.filter(user=self)

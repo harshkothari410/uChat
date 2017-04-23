@@ -15,7 +15,8 @@ from django.urls import reverse
 from django.db.models import Q
 
 from chatapp.models import ChatRoom, Message
-from userapp.models import UserProfile
+from userapp.models import UserProfile, Friend
+
 
 
 Room = ChatRoom
@@ -39,11 +40,11 @@ def ws_connect(message):
         room = Room.objects.get(label=label)
 
     except ValueError:
-        print "tets"
+        print 'invalid ws path=%s', message['path']
         log.debug('invalid ws path=%s', message['path'])
         return
     except Room.DoesNotExist:
-        print "no room in channel_session"
+        print 'ws room does not exist label=%s', label
         log.debug('ws room does not exist label=%s', label)
         return
 
@@ -95,6 +96,9 @@ def ws_receive(message):
         return
 
     if data:
+        # frienddata = Friend.objects.get(room=room)
+        # frienddata.save()
+        room.save()
         log.debug('chat message room=%s handle=%s message=%s', 
             room.label, data['handle'], data['message'])
         m = room.messages.create(**data)
@@ -117,6 +121,8 @@ def ws_receive(message):
             print "Hello"
             Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m)})    
         Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m.as_dict())})
+        # m = MessageSerializer(m, context={'request': request})
+        # Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m) });
 
 @channel_session
 def ws_disconnect(message):

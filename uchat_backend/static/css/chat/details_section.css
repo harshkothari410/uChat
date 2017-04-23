@@ -54,7 +54,8 @@
   padding: 30px 35px;
   line-height: 1;
   margin: 0;
-  border-bottom: 1px solid #343a45;
+  /*border-bottom: 1px solid #343a45;*/
+  border-bottom: 1px solid #eaeaec;
   position: relative;
 }
 #chat .chat-header .badge {
@@ -133,6 +134,7 @@
 #chat .chat-group > a:hover,
 #chat .chat-group > a.active {
   background-color: #343a45;
+  text-decoration: none;
 }
 #chat .chat-group > a:before {
   content: '';

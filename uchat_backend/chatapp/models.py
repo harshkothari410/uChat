@@ -5,6 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.models import User
 from userapp.models import UserProfile
+import datetime
 
 # Create your models here.
 class ChatRoom(models.Model):
@@ -13,6 +14,8 @@ class ChatRoom(models.Model):
 	"""
 	name = models.TextField()
 	label = models.SlugField(unique=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	modified_at = models.DateTimeField(auto_now=True)
 
 	def __unicode__(self):
 		return self.label
@@ -28,6 +31,8 @@ class ChatRoomMember(models.Model):
 	group = models.ForeignKey(ChatRoom, related_name='groupname')
 	user = models.ForeignKey(UserProfile, related_name='users')
 	admin = models.BooleanField(default=False)
+	created_at = models.DateTimeField(auto_now_add=True)
+	modified_at = models.DateTimeField(auto_now=True)
 
 class Message(models.Model):
 	"""
@@ -44,7 +49,8 @@ class Message(models.Model):
 
 	@property
 	def formatted_timestamp(self):
-		return self.timestamp.strftime('%b %-d %-I:%M %p')
+		# return self.timestamp.strftime('%b %-d %-I:%M %p')
+		return self.timestamp.isoformat()
 
 	def as_dict(self):
 		return {'handle': self.handle, 'message': self.message, 'timestamp': self.formatted_timestamp}

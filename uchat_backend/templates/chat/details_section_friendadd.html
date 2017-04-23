@@ -1,34 +1,41 @@
 
-	<!-- Adding Friends Modal  -->
-	<div class="modal fade" id="addFriendModal" tabindex="-1" role="dialog" aria-labelledby="addFriendModalLabel">
-		<div class="modal-dialog" role="document">
+<!-- Adding Friends Modal  -->
+<div class="modal fade" id="addFriendModal" tabindex="-1" role="dialog" aria-labelledby="addFriendModalLabel">
+	<div class="modal-dialog" role="dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-labelled="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="addFriendModalLabel">Search User</h4>		
+			</div>
 
-			<div class="modal-content">
-
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-labelled="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="addFriendModalLabel">Enter Name of your friend</h4>
-					
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label class="control-label">Name:</label>
+			<div class="modal-body">
+				<div class="row">
+					<form> 
+						
+						<div class="col-sm-10 form-group">
+							
 							<input type="text" class="form-control" id="friend-name">
 						</div>
+
+						<div class="col-sm-2">
+							<button type="button" id="modalFriendSearch" class="btn btn-primary btn-block" >Search</button>
+						</div>
 					</form>
-					<div>
-						<label id="searchFriendResult">Sample</label>
+				</div>
+
+				<div class="row" id="searchFriendResult">
+					<div class="col-sm-10 name"></div>
+					<div class="col-sm-2">
+						<button type="button" id="modalFriendsubmit" class="btn btn-primary btn-block addfriendbutton" data-dismiss="modal">Add</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" id="modalFriendSearch" class="btn btn-primary" >Search Friend </button>
-					<button type="button" id="modalFriendsubmit" class="btn btn-primary" data-dismiss="modal">Add Friend</button>
-				</div>
-				
 			</div>
-			
-		</div>	
 
-	</div>
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+				
+				<button type="button" id="modalFriendsubmit" class="btn btn-primary" data-dismiss="modal">Add Friend</button>
+			</div> -->
+		</div>		
+	</div>	
+</div>

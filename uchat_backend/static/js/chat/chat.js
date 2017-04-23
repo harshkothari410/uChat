@@ -13,7 +13,7 @@ $(function($){
 		this.init = function() {
 			$('#chat1').children().remove();
 			var $first_dom = $('.' + settings.friends).children('.friend-detail').first();
-			console.log($first_dom);
+			// console.log($first_dom);
 			// Change heading
 			var name = getName($first_dom);
 			$('#friend-name-heading').text(name);
@@ -24,12 +24,13 @@ $(function($){
 			
 			var channel = getChannel($first_dom);
 			loadPreviousChat($first_dom, channel);
-			console.log(channel);
-
+			// console.log(channel);
+			$(document).on('click', '.friend-detail', onClick);
 			// connect every channel to socket
-			$('.' + settings.friends).children().each(function() {
+			$('.' + settings.friends).children('.friend-detail').each(function() {
 				$this = $(this);
-				$this.on("click", onClick);
+				// $this.on("click", onClick);
+				
 				var channel = getChannel($this);
 				var chatsock = createWebSocket(channel);
 				// settings.chatsock = chatsock;
@@ -65,8 +66,17 @@ $(function($){
 			var username = getUserName($this);
 			var friend = getFriend($this);
 			var name = getName($this);
-			console.log(settings.chatsock);
-			connectWebSocket(settings.chatsock[friend]);
+			// console.log(settings.chatsock);
+
+			if (settings.chatsock[friend]) {
+				connectWebSocket(settings.chatsock[friend]);	
+			} else {
+				var chatsock = createWebSocket(channel);
+				settings.chatsock[friend] = chatsock;
+				console.log(chatsock);
+				connectWebSocket(settings.chatsock[friend]);
+			}
+			
 
 			// Make chat count 0
 			$('#' + username).val(0).addClass('hidden');
@@ -112,28 +122,37 @@ $(function($){
 		// individual chat template
 		// @fix me - Change as per the new design
 		function individualChat(chat) {
-			// console.log(chat);
-			var $ele = $('<div></div>').addClass('msg');
-			var $div = $('<div></div>').addClass('has-author');
-			var $innerDiv = $('<div></div>').addClass('message-text');
-
+			// Using Handlebars template rendering engine
+			var out = '';
 			if (chat.handle == $('#user-info-username').text()) {
-				$innerDiv.addClass('message-out');
+				out = 'message-out';
 			}
-			var $img_span = $('<span><img class="initial-image img-circle" data-name="'+chat.handle+'" height=17.5 width=17.5></img></span>')
-		
-			$innerDiv.prepend($img_span);
-			
-			var $span = $('<span dir="ltr"></span>').addClass('selectable-text');
-			var $text_msg = $('<span dir="ltr"></span>').addClass('text-msg').text(chat.message);
-			var $time_stamp = $('<span dir="ltr"></span>').addClass('message-time').text("12:55 AM");
+			// var t_p_date = '';
+			var flag = 0;
+			console.log(chat.timestamp);
+			var datetime = getDateTime(chat.timestamp);
 
-			$span.append($text_msg);
-			$span.append($time_stamp);
-			$innerDiv.append($span);
+			var pre_date = $('.date-msg').last().text();
 			
-			$div.append($innerDiv);
-			$ele.append($div);
+			if (pre_date === datetime.date) {
+				// console.log('Here', datetime.date, pre_date);
+				flag = 1;
+			} else {
+				flag = 0;
+			}
+			t_p_date = datetime.date;
+			// console.log('Flag check', flag, flag ? datetime.time : '');
+			// console.log(flag, pre_date, datetime.date);
+			var source   = $("#message-template").html();
+			var template = Handlebars.compile(source);
+			var context = {
+				message: chat.message,
+				out: out,
+				date: datetime.date,
+				time: datetime.time,
+				hidden:  flag ? 'hidden' : '',
+			};
+			var $ele = template(context); 
 
 			return $ele;
 		}
@@ -148,7 +167,7 @@ $(function($){
 					// console.log(data);
 					var activeFriend = getFriend($('.active'));
 					var loggedUser = $('#user-info-username').text();
-					console.log(message.handle, loggedUser, activeFriend);
+					// console.log(message.handle, loggedUser, activeFriend);
 					if (data.handle == loggedUser || data.handle == activeFriend) {
 						// console.log('I am inside');
 						renderChat([data]);
@@ -158,10 +177,26 @@ $(function($){
 						var counter = parseInt($('#' + handle).text());
 						// console.log(handle, counter, $('#' + handle).text());
 						counter += 1;
-						$('#' + handle).text(counter).removeClass('hidden');
+						
+						var target = $('#' + handle).parent();
+						// var target = $('#test6').parent();
+						var $first_dom = $('.' + settings.friends).children('.friend-detail').first();
+						console.log(target, target.position().top - $first_dom.position().top);
+						target.animate({
+							top: -(target.position().top - $first_dom.position().top),
+							 opacity: 0.25,
+						}, 'fast', function() {
+							// target.insertBefore($first_dom);
+							$('.friends-list strong').after(target[0]);
+							$('#' + handle).text(counter).removeClass('hidden');
+							console.log(target);
+							target.css('opacity', 1);
+							target.css('top', 0);
+						})
+						// moveUp(target);
 					}
 				} else {
-					console.log('connected', settings.chatsock.url);
+					// console.log('connected', settings.chatsock.url);
 				}
 			}
 		}
@@ -224,6 +259,62 @@ $(function($){
 		// find the channel based on friend or group
 		function getChannel(dom) {
 			return dom.children('.socket-chat').attr('chat-id');
+		}
+
+		// get timestamp from date string
+		function getDateTime(timestamp) {
+			var rdt = {};
+
+			var dt = new Date(timestamp);
+			console.log(dt);
+			var d = dt.getMonth()+1 + '/' + dt.getDate() + '/' + dt.getFullYear();
+			var hour = dt.getHours();
+			var minutes = dt.getMinutes();
+			var ampm = 'AM';
+			// Check for AM PM
+			if (parseInt(hour) > 12) {
+				hour = parseInt(hour) - 12;
+				ampm = 'PM';
+			}
+			var t = hour + ':' + minutes + ' ' + ampm;
+			rdt['date'] = d;
+			rdt['time'] = t;
+			return rdt;
+		}
+
+		// Animation as per messages come
+		// function css(element, property, value) {
+		// 	element.style.transitionDuration = '0ms';
+		// 	element.style[property] = value;
+		// }
+
+		function animate(element, property, value, duration, callback) {
+			duration = duration == null ? 400 : parseFloat(duration);
+			element.style.transitionDuration = duration + 'ms';
+			element.offsetLeft;
+			element.style[property] = value;
+			duration && callback && setTimeout(function () {
+			callback(element);
+			}, duration);
+		}
+
+		function moveUp(element) {
+			var curr = element.parentNode;
+			var prev = $('.' + settings.friends).children('.friend-detail').first();
+
+			console.log(curr, prev);
+			if (!prev) return false;
+
+			animate(curr, 'top', -prev.offsetHeight + 'px', null, function () {
+				curr.parentNode.insertBefore(curr, prev);
+				css(curr, 'top', 0);
+				css(prev, 'top', 0);
+			});
+			// animate(prev, 'top', curr.offsetHeight + 'px', null, function () {
+			// curr.parentNode.insertBefore(curr, prev);
+			// css(curr, 'top', 0);
+			// css(prev, 'top', 0);
+			// });
 		}
 	}
 }(jQuery));

@@ -3,7 +3,19 @@
 		<span class="user-status is-online"></span>
 		<em>{{friend.friend.name|title}}</em>
 
-		<span class="badge badge-info">1</span>
+		<span class="badge badge-info hidden" id="{{friend.friend.username}}">0</span>
 		<div class="hidden socket-chat" creator="{{friend.creator.username}}" friend="{{friend.friend.username}}" friend-name="{{friend.friend.name}}" user-name="{{friend.friend.username}}" chat-id="{{friend.room.label}}">{{friend.label}}</div>
 	</a>
 {% endfor %}
+
+{% verbatim %}
+<script id="friend-template" type="text/x-handlebars-template">
+	<a href="#" class="friend-detail" id="sample-user-123" data-conversation-history="#sample_history">
+		<span class="user-status is-online"></span>
+		<em>{{friend_name}}</em>
+
+		<span class="badge badge-info {{hidden}}" id="{{friend_username}}">0</span>
+		<div class="hidden socket-chat" creator="{{creator_username}}" friend="{{friend_username}}" friend-name="{{friend_name}}" user-name="{{friend_username}}" chat-id="{{chatid}}">{{friend_name}}</div>
+	</a>
+</script>
+{% endverbatim %}
