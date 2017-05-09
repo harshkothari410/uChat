@@ -9,3 +9,4 @@ argparse
 nltk
 numpy
 textblob
+geopy

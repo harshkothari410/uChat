@@ -1,4 +1,4 @@
-<div class="chatarea" id="chat2" channel="{{bot.room}}" bot-user="{{bot.friend.username}}" user="{{loggeduser.username}}">
+<div class="chatarea" id="chat2" channel="{{bot.room}}" bot-user="{{bot.friend.username}}" user="{{loggeduser.username}}" >
 	
 </div>
 
@@ -11,7 +11,7 @@
 				<span><img class="initial-image" data-name="{{user}}" ></span>
 
 				<span dir="ltr" class="selectable-text">
-					<span dir="ltr" class="text-msg">{{message}}</span>
+					<span dir="ltr" class="text-msg" style="white-space: pre-wrap;">{{{message}}}</span>
 
 					<span dir="ltr" class="message-time">{{time}}</span>
 				</span>

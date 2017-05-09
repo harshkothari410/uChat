@@ -114,13 +114,20 @@ def ws_receive(message):
             room.label, data['handle'], data['message'])
         
 
-        _bot_message = bot_message(data)
+        
 
         main_message = room.messages.create(**data)
         Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(main_message.as_dict())})
         
+        _bot_message = bot_message(data)
+
+        
         if flag:
             if _bot_message['status']:
+
+
+                sm = suggestion_message(_bot_message['service'])
+                Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(sm)})
                 Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(_bot_message)})
         else:
             Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(_bot_message)})
@@ -134,6 +141,25 @@ def ws_disconnect(message):
     except (KeyError, Room.DoesNotExist):
         pass
 
+
+def suggestion_message(service):
+    if service == 'yelp':
+        suggestion_msg = {
+            'message': 'Here are some suggestion for you',
+            'handle': 'uChat-bot',
+            'status': 'flag'
+        }
+
+        return suggestion_msg
+
+    if service == 'wiki':
+        suggestion_msg = {
+            'message': 'Here is some information for you',
+            'handle': 'uChat-bot',
+            'status': 'flag'
+        }
+
+        return suggestion_msg
 
 # def bot_message(data):
 #     if data['message'] == 'Hi' or data['message'] == 'hi':

@@ -50,9 +50,9 @@ urlpatterns = [
     url(r'^logout/$', views.user_logout, name="logout"),
 
     url(r'^test/test/$', views.test, name="test"),    
-    url(r'^chat/$', views.chat_dashboard, name="chat_dashboard"),
+    # url(r'^chat/$', views.chatroom, name='chat_room'),
 
-    url(r'^(?P<label>[\w-]{,50})/$', views.chatroom, name='chat_room'),
+    url(r'^(?P<label>[\w-]{,50})/$', views.chatroom, name='chat_room_1'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
     # url(r'^api/v1/user/(?P<user_name>[-\w.]+)/$', views1.get_user, name='userapp-api-url'),
     # Userapp URLs
