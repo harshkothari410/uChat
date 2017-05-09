@@ -1,0 +1,22 @@
+<div class="chatarea" id="chat2" channel="{{bot.room}}" bot-user="{{bot.friend.username}}" user="{{loggeduser.username}}">
+	
+</div>
+
+{% verbatim %}
+<script id="message-template-bot" type="text/x-handlebars-template">
+	
+	<div class="msg">
+		<div class="has-author">
+			<div class="message-text {{out}}">
+				<span><img class="initial-image" data-name="{{user}}" ></span>
+
+				<span dir="ltr" class="selectable-text">
+					<span dir="ltr" class="text-msg">{{message}}</span>
+
+					<span dir="ltr" class="message-time">{{time}}</span>
+				</span>
+			</div>
+		</div>
+	</div>
+</script>
+{% endverbatim %}

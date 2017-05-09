@@ -3,3 +3,9 @@ channels
 asgi_redis
 uber_rides
 djangorestframework
+wikipedia
+requests
+argparse
+nltk
+numpy
+textblob

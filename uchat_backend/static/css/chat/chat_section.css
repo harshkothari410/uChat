@@ -8,6 +8,8 @@
 	position: relative;
 	height: calc(100% - 80px);
 	background-color: red;
+	border-left: 1px solid #303641;
+	/*border-right: 1px solid #303641;*/
 }
 /* ================ chatarea css ================== */
 .chatarea{
@@ -22,6 +24,7 @@
 	top:0;
 	padding-left: 15px;
 	padding-right: 15px;
+
 }
 
 .chat-container .container {

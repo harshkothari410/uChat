@@ -10,6 +10,7 @@ from django.db.models import Q
 
 from chatapp.models import ChatRoom, Message
 from userapp.models import UserProfile, Friend
+import uuid
 
 # Create your views here.
 
@@ -89,9 +90,23 @@ def signup(request):
 			user = User.objects.create_user(username=username, password=password, email=email)
 			user = authenticate(username=username, password=password)
 
+			# bot = User.objects.get_or_create(username='uChat-bot', password='harshkothari', email='uchat@uchat.com')
 			login(request, user)
 
+			# print bot
+
 			loggeduser = UserProfile.objects.get_or_create(username=username, user = user, first_name=first_name, last_name=last_name, email=email)
+			uchatbot = UserProfile.objects.get_or_create(username='uChat-bot', user=None, first_name='uChat', last_name='Bot', email='uchat@uchat.com')
+
+			print loggeduser, uchatbot
+			room_name = username + '- uChat_bot'
+			room = ChatRoom.objects.create(name=room_name, label=uuid.uuid4())
+
+			print uchatbot, 'uchatBot'
+			# Create Bot for this
+			bot = Friend.objects.get_or_create(creator=loggeduser[0], friend=uchatbot[0], room=room)
+
+			print bot, 'bot'
 
 		except Exception as e:
 			print e, e.__dict__
@@ -138,8 +153,10 @@ def chatroom(request, label):
 		# 	return redirect('/')
 
 		# messages = reversed(room.messages.order_by('-timestamp')[:50])
+		uchatbot = UserProfile.objects.get(username='uChat-bot')
 		friends = loggeduser.get_friends()
 		groups = loggeduser.get_group()
+		bot = loggeduser.get_bot(uchatbot)
 		return render(request, 'chat/index.html', locals())
 
 	return redirect('/')

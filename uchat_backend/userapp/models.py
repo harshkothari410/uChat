@@ -14,7 +14,7 @@ class UserProfile(models.Model):
 	"""
 	Model for uChat User
 	"""
-	user = models.OneToOneField(User)
+	user = models.OneToOneField(User, null=True)
 	first_name = models.CharField(max_length=255, blank = True, null = True)
 	last_name = models.CharField(max_length=255, blank = True, null = True)
 	username = models.CharField(max_length=255, blank = True, null = True)
@@ -31,10 +31,15 @@ class UserProfile(models.Model):
 
 	
 	def get_friends(self):
-		return sorted(Friend.objects.filter(creator=self), key=operator.attrgetter('room.modified_at'), reverse=True)
+		bot = UserProfile.objects.get(username='uChat-bot')
+		return sorted(Friend.objects.filter(creator=self).exclude(friend=bot), key=operator.attrgetter('room.modified_at'), reverse=True)
 
 	def get_group(self):
 		return chatapp.models.ChatRoomMember.objects.filter(user=self)
+
+	def get_bot(self, bot):
+		# uchatbot = models.objects.get(username='uChat-bot')
+		return Friend.objects.get(creator=self, friend=bot)
 
 
 class Friend(models.Model):

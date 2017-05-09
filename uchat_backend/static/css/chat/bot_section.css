@@ -1,0 +1,18 @@
+.chat-heading{
+	height: 69px;
+	width: 100%;
+
+}
+
+.bot-container .container {
+	margin-right: 0;
+	width: 100%;
+	color: white;
+	/*background-color: #eaeaec;*/
+	padding-bottom: 10px;
+	border-bottom: 1px solid white;;
+}
+
+.bot-container .chatsend {
+	/*border-left: 1px solid #303641;*/
+}

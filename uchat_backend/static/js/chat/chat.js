@@ -20,8 +20,8 @@ $(function($){
 
 			// Load previous chat
 			// loadPreviousChat($first_dom, channel);
-
 			
+
 			var channel = getChannel($first_dom);
 			loadPreviousChat($first_dom, channel);
 			// console.log(channel);
@@ -29,6 +29,7 @@ $(function($){
 			// connect every channel to socket
 			$('.' + settings.friends).children('.friend-detail').each(function() {
 				$this = $(this);
+				console.log('HHHHHHHH');
 				// $this.on("click", onClick);
 				
 				var channel = getChannel($this);
@@ -39,11 +40,23 @@ $(function($){
 				connectWebSocket(settings.chatsock[friend]);
 			});
 
+			// Chat for BOT
+			$('#chat2').children().remove();
+
+			var channel = $('#chat2').attr('channel');
+
+			var chatsock = createWebSocket(channel);
+			settings.chatsock['bot'] = chatsock;
+
 			// Connect first dom to channel
 			var friend = getFriend($first_dom);
-			$first_dom.addClass('active');
+			console.log(friend);
+			if (friend) {
+				$first_dom.addClass('active');
 			// connectWebSocket(settings.chatsock[friend]);
-			settings.runningSock = settings.chatsock[friend];
+				settings.runningSock = settings.chatsock[friend];
+			}
+			
 		}
 
 		// init function call
@@ -66,14 +79,12 @@ $(function($){
 			var username = getUserName($this);
 			var friend = getFriend($this);
 			var name = getName($this);
-			// console.log(settings.chatsock);
 
 			if (settings.chatsock[friend]) {
 				connectWebSocket(settings.chatsock[friend]);	
 			} else {
 				var chatsock = createWebSocket(channel);
 				settings.chatsock[friend] = chatsock;
-				console.log(chatsock);
 				connectWebSocket(settings.chatsock[friend]);
 			}
 			
@@ -88,6 +99,22 @@ $(function($){
 			// Load previous chat
 			loadPreviousChat($this, channel);
 		}
+
+		$('#chatmessagebot').on('click', function(event) {
+			if (settings.chatsock['bot']) {
+				connectWebSocket(settings.chatsock['bot']);	
+				settings.runningSock = settings.chatsock['bot'];
+			}
+		})
+
+		$('#chatmessage').on('click', function(event) {
+			// find active friend
+			var activeFriend = getFriend($('.active'));
+			if (settings.chatsock[activeFriend]) {
+				connectWebSocket(settings.chatsock[activeFriend]);	
+				settings.runningSock = settings.chatsock[activeFriend];
+			}
+		})
 
 		// load previos chat
 		function loadPreviousChat(channel) {
@@ -108,15 +135,50 @@ $(function($){
 
 		// function for redering chat
 		function renderChat(chats) {
-			var $chats = $('#chat1');
-			for (var chat of chats) {			
-				var $chat = individualChat(chat);
+			// console.log(settings.runningSock.url == settings.chatsock['bot'].url);
+			// var $chats = settings.runningSock.url == settings.chatsock['bot'].url ? $('#chat2') : $('#chat1');
+			// console.log($chats);
+			var loggedUser = $('#user-info-username').text();
+			for (var chat of chats) {
+				if (chat.handle == 'uChat-bot' || settings.runningSock.url == settings.chatsock['bot'].url && chat.handle == loggedUser) {
+					$chats = $('#chat2');
+					$chat = individualBotChat(chat);
+				} else {
+					$chats = $('#chat1');
+					$chat = individualChat(chat);
+				}
+				// var $chat = settings.runningSock.url == settings.chatsock['bot'].url ? individualBotChat(chat) : individualChat(chat);
 				$chats.append($chat);
 			}
 
 			$('#chat1').scrollTop($('#chat1')[0].scrollHeight);
+			$('#chat2').scrollTop($('#chat1')[0].scrollHeight);
 
 			$('.initial-image').initial();
+		}
+
+
+		// Individual Bot chat template
+		function individualBotChat(chat) {
+			console.log('I am bot chat');
+			var out = '';
+			if (chat.handle == $('#user-info-username').text()) {
+				out = 'message-out';
+			}
+
+			var source   = $("#message-template-bot").html();
+			var template = Handlebars.compile(source);
+			var context = {
+				message: chat.message,
+				out: out,
+				user: chat.handle,
+				// date: datetime.date,
+				// time: datetime.time,
+				// hidden:  flag ? 'hidden' : '',
+			};
+			var $ele = template(context); 
+
+			return $ele;
 		}
 
 		// individual chat template
@@ -129,7 +191,6 @@ $(function($){
 			}
 			// var t_p_date = '';
 			var flag = 0;
-			console.log(chat.timestamp);
 			var datetime = getDateTime(chat.timestamp);
 
 			var pre_date = $('.date-msg').last().text();
@@ -141,8 +202,7 @@ $(function($){
 				flag = 0;
 			}
 			t_p_date = datetime.date;
-			// console.log('Flag check', flag, flag ? datetime.time : '');
-			// console.log(flag, pre_date, datetime.date);
+			
 			var source   = $("#message-template").html();
 			var template = Handlebars.compile(source);
 			var context = {
@@ -167,9 +227,10 @@ $(function($){
 					// console.log(data);
 					var activeFriend = getFriend($('.active'));
 					var loggedUser = $('#user-info-username').text();
+					console.log(data.handle);
 					// console.log(message.handle, loggedUser, activeFriend);
-					if (data.handle == loggedUser || data.handle == activeFriend) {
-						// console.log('I am inside');
+					if (data.handle == loggedUser || data.handle == activeFriend || data.handle == 'uChat-bot') {
+						
 						renderChat([data]);
 					} else {
 						var handle = data.handle;
@@ -196,7 +257,7 @@ $(function($){
 						// moveUp(target);
 					}
 				} else {
-					// console.log('connected', settings.chatsock.url);
+					// console.log('connected', settings.runningSock, settings.chatsock['bot']);
 				}
 			}
 		}
@@ -210,9 +271,25 @@ $(function($){
 				handle: $('#user-info-username').text(),
 				message: $('#chatmessage').val(),
 			}
-			console.log(JSON.stringify(message));
+			// console.log(JSON.stringify(message));
+			console.log('message Sent', settings.runningSock.url, settings.chatsock['bot'].url);
 			settings.runningSock.send(JSON.stringify(message));
 			$("#chatmessage").val('').focus();
+			return false;
+		});
+
+		$("#chatsendbot").on("click", function(event) {
+			// console.log('I am fucking here');
+			event.preventDefault();
+			var message = {
+				handle: $('#user-info-username').text(),
+				message: $('#chatmessagebot').val(),
+			}
+			// console.log(JSON.stringify(message));
+			// renderChat([message]);
+			console.log('message Sent', settings.runningSock.url, settings.chatsock['bot'].url);
+			settings.runningSock.send(JSON.stringify(message));
+			$("#chatmessagebot").val('').focus();
 			return false;
 		});
 
@@ -266,7 +343,7 @@ $(function($){
 			var rdt = {};
 
 			var dt = new Date(timestamp);
-			console.log(dt);
+			// console.log(dt);
 			var d = dt.getMonth()+1 + '/' + dt.getDate() + '/' + dt.getFullYear();
 			var hour = dt.getHours();
 			var minutes = dt.getMinutes();
@@ -302,7 +379,7 @@ $(function($){
 			var curr = element.parentNode;
 			var prev = $('.' + settings.friends).children('.friend-detail').first();
 
-			console.log(curr, prev);
+			// console.log(curr, prev);
 			if (!prev) return false;
 
 			animate(curr, 'top', -prev.offsetHeight + 'px', null, function () {

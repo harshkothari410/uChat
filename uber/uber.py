@@ -29,10 +29,10 @@ print auth_url
 print state
 
 # redirect_uri = YOUR_REDIRECT_URL + '?code=' + access_token  + '&state=' + state
-
+# print redirect_uri
 # http://localhost/?state=o0tbQ7VtRzzBYtn0OALmjQY3XATB9UaU&code=fKW6qXnhmL1Naz6NvQ5TRwFkbZinNQ#_
 
-redirect_uri = 'http://localhost/?state='+ state + '&code=5kX9HspPBV9WfVp0fi7NT3yf7OURpj#_'
+redirect_uri = 'http://localhost/?state='+ state + '&code=t0Kq2Sfa55PifYK4L4cFiPTtfoBfrl#_'
 session = auth_flow.get_session(redirect_uri)
 client = UberRidesClient(session)
 credentials = session.oauth2credential

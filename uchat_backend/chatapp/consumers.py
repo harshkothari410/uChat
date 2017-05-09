@@ -17,7 +17,7 @@ from django.db.models import Q
 from chatapp.models import ChatRoom, Message
 from userapp.models import UserProfile, Friend
 
-
+from chatapp.messageparse import bot_message
 
 Room = ChatRoom
 log = logging.getLogger(__name__)
@@ -57,13 +57,10 @@ def ws_connect(message):
     # This may be a FIXME?
     Group('chat-'+label, channel_layer=message.channel_layer).add(message.reply_channel)
 
+    # message.channel_session['room'] = {'main': room.label}
     message.channel_session['room'] = room.label
 
     message.reply_channel.send({'text': 'hello'})
-
-    print Group.__dict__
-
-    print message.__dict__
 
 @channel_session
 def ws_receive(message):
@@ -72,7 +69,21 @@ def ws_receive(message):
     try:
         label = message.channel_session['room']
         room = Room.objects.get(label=label)
-        print room
+
+        # Add bot channel for bot the user 
+        room_friend_record = Friend.objects.filter(room=room)
+
+        flag = 0
+        if len(room_friend_record) == 2:
+            flag = 1
+            # creator = room_friend_record[0].creator
+            # friend = room_friend_record[0].friend
+
+            # uchatbot = UserProfile.objects.get(username='uChat-bot')
+
+            # creator_bot = creator.get_bot(uchatbot)
+            # friend_bot = creator.get_bot(uchatbot)
+        
     except KeyError:
         log.debug('no room in channel_session')
         print "no room in channel_session"
@@ -101,29 +112,19 @@ def ws_receive(message):
         room.save()
         log.debug('chat message room=%s handle=%s message=%s', 
             room.label, data['handle'], data['message'])
-        m = room.messages.create(**data)
-        # print m
-        # See above for the note about Group
-        print data['message']
-        if data['message'] == 'uchat':
-            m = {
-                'message': 'welcome to uchat',
-                'handle': 'uChat'
-            }
-            print "Hello"
-            Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m)})  
+        
 
-        if data['message'] == 'Hi':
-            m = {
-                'message': 'Hello, How may I help you today ?',
-                'handle': 'uChat'
-            }
-            print "Hello"
-            Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m)})    
-        Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m.as_dict())})
-        # m = MessageSerializer(m, context={'request': request})
-        # Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(m) });
+        _bot_message = bot_message(data)
 
+        main_message = room.messages.create(**data)
+        Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(main_message.as_dict())})
+        
+        if flag:
+            if _bot_message['status']:
+                Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(_bot_message)})
+        else:
+            Group('chat-'+label, channel_layer=message.channel_layer).send({'text': json.dumps(_bot_message)})
+        
 @channel_session
 def ws_disconnect(message):
     try:
@@ -132,4 +133,28 @@ def ws_disconnect(message):
         Group('chat-'+label, channel_layer=message.channel_layer).discard(message.reply_channel)
     except (KeyError, Room.DoesNotExist):
         pass
+
+
+# def bot_message(data):
+#     if data['message'] == 'Hi' or data['message'] == 'hi':
+#         m = {
+#             'message': 'welcome to uchat',
+#             'handle': 'uChat-bot',
+#             'status': True
+#         }
+#         return m
+#     elif data['message'] == 'uchat':
+#         m = {
+#                 'message': 'welcome to uchat',
+#                 'handle': 'uChat-bot',
+#                 'status': True
+#             }
+#         return m
+#     else:
+#         m = {
+#             'message': 'I did not recognize your command. Try use following\nHi\nuchat',
+#             'handle': 'uChat-bot',
+#             'status': False
+#         }
+#         return m
 
